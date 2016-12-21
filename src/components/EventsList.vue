@@ -8,7 +8,7 @@
         {{ event.desc }}
       </div>
       <div class="mdl-card__actions mdl-card--border" v-if="event.open">
-        <router-link :to="{ name: 'event', params: { seoSlug: event.seoSlug }}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        <router-link :to="{ name: 'event', params: { seoSlug: event.seoSlug }}" class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">
           Zapisz się
         </router-link>
       </div>

@@ -43,4 +43,8 @@ export default {
   padding: 15px;
 }
 
+.mdl-layout__header, .mdl-button--raised.mdl-button--colored {
+  background-color: #e9732c;
+}
+
 </style>
