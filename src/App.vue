@@ -18,7 +18,9 @@
       </div>
       <main class="mdl-layout__content">
         <div class="page-content">
-          <router-view class="view"></router-view>
+          <transition name="fade" mode="out-in">
+            <router-view class="view"></router-view>
+          </transition>
         </div>
       </main>
     </div>
@@ -45,6 +47,13 @@ export default {
 
 .mdl-layout__header, .mdl-button--raised.mdl-button--colored {
   background-color: #e9732c;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s ease;
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
 }
 
 </style>

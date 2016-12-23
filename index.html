@@ -4,7 +4,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>event-pwa</title>
+    <meta name="theme-color" content="#ff7626">
+    <title>PGS Events</title>
+    <link rel="icon" href="static/icons/favicon.ico">
+
+    <!-- MANIFEST -->
+    <link rel="manifest" href="static/manifest.json">
+
+    <!-- ADD TO HOMESCREEN SAFARI ON IOS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="static/icons/apple-touch-icon.png">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.deep_orange-blue.min.css">
     <script src="https://code.getmdl.io/1.2.1/material.min.js"></script>
@@ -12,5 +21,18 @@
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/static/sw.js').then(function(registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }).catch(function(err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+          });
+        });
+      }
+    </script>
   </body>
 </html>

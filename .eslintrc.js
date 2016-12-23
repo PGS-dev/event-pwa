@@ -9,6 +9,10 @@ module.exports = {
   plugins: [
     'html'
   ],
+  env: {
+    browser: true,
+    node: true
+  },
   // check if imports actually resolve
   'settings': {
     'import/resolver': {
