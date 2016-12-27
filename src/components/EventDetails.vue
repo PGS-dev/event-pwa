@@ -1,7 +1,9 @@
 <template>
   <div v-if="event">
-    <h1 class="heading">Rejestracja</h1>
-    <h2 class="title">{{ event.title }}</h2>
+    <div class="header">
+      <h1 class="heading">Rejestracja</h1>
+      <h2 class="title">{{ event.title }}</h2>
+    </div>
     <form v-on:submit.prevent="onSubmit">
       <template v-for="field in sorted(event.fields)">
         <template v-if="field.type === 'text'">
@@ -18,7 +20,7 @@
           <mdl-checkbox v-for="val in toArray(field.values)" :v-model="field.name" :value="false">{{val}}</mdl-checkbox>
         </div>
       </template>
-      <mdl-button class="mdl-js-ripple-effect" colored raised>Zapisz się</mdl-button>
+      <mdl-button class="mdl-js-ripple-effect submit-btn" colored raised>Zapisz się</mdl-button>
     </form>
   </div>
 </template>
@@ -61,10 +63,17 @@ export default {
 
 <style scoped lang="scss">
 
+  .header {
+    background-color: #f9f9f9;
+    margin: -15px -15px 0 -15px;
+    padding: 15px;
+    border-bottom: 1px solid #dcdcdc;
+  }
+
   .heading {
     font-size: 20px;
     margin: 0;
-    color: rgba(0,0,0,.26);
+    color: rgba(0, 0, 0, .26);
   }
 
   .title {
@@ -73,22 +82,10 @@ export default {
     margin: 0;
   }
 
-  .multichoice {
-    margin-bottom: 15px;
-
-    label:first-child {
-      display: block;
-    }
-
-    .mdl-checkbox {
-      display: inline-block;
-      width: auto;
-      margin-right: 15px;
-    }
-
-    .mdl-checkbox__label {
-      font-size: 14px;
-    }
+  .submit-btn {
+    margin-top: 15px;
+    display: block;
+    width: 100%;
   }
 
 </style>

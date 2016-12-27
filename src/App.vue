@@ -35,25 +35,8 @@ export default {
 
 </script>
 
-<style>
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+<style lang="scss">
 
-.page-content {
-  padding: 15px;
-}
-
-.mdl-layout__header, .mdl-button--raised.mdl-button--colored {
-  background-color: #e9732c;
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s ease;
-}
-.fade-enter, .fade-leave-active {
-  opacity: 0
-}
+@import 'styles';
 
 </style>
