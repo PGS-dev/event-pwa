@@ -11,6 +11,29 @@
   background-color: #e9732c;
 }
 
+.offline {
+  .mdl-layout__header, .mdl-button--raised.mdl-button--colored {
+    background-color: #383839;
+  }
+
+  .offline-message {
+    transform: translateY(55px);
+  }
+}
+
+.offline-message {
+  background-color: #7f7f7f;
+  color: #ffffff;
+  padding: 15px;
+  transform: translateY(0px);
+  transition: transform 1s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s ease;
 }
@@ -38,23 +61,23 @@
 }
 
 .mdl-checkbox__box-outline {
-  border: 2px solid rgba(0,0,0,.34);
+  border: 2px solid rgba(0, 0, 0, .34);
 }
 
 .mdl-textfield--floating-label.is-invalid .mdl-textfield__label {
-  color: rgba(0,0,0,.26);
+  color: rgba(0, 0, 0, .26);
   font-size: 16px;
 }
 
 .mdl-textfield--floating-label.is-focused.is-invalid .mdl-textfield__label {
-  color: rgb(255,87,34);
+  color: rgb(255, 87, 34);
   font-size: 12px;
 }
 
 .mdl-textfield.is-invalid .mdl-textfield__input {
-  border-color: rgba(0,0,0,.12);
+  border-color: rgba(0, 0, 0, .12);
 }
 
 .mdl-textfield.is-invalid .mdl-textfield__label:after {
-  background-color: rgb(255,87,34);
+  background-color: rgb(255, 87, 34);
 }

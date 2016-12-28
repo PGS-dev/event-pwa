@@ -16,6 +16,9 @@
           <a class="mdl-navigation__link" href="">Link</a>
         </nav>
       </div>
+      <div class="offline-message">
+        Brak połączenia z internetem
+      </div>
       <main class="mdl-layout__content">
         <div class="page-content">
           <transition name="fade" mode="out-in">
