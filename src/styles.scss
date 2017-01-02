@@ -3,12 +3,27 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.logo {
+  background-image: url("assets/logo.png");
+  background-size: 81px;
+  background-repeat: no-repeat;
+  background-position-y: -20px;
+  display: inline-block;
+  width: 80px;
+  height: 40px;
+  margin-right: 15px;
+}
+
 .page-content {
   padding: 15px;
 }
 
 .mdl-layout__header, .mdl-button--raised.mdl-button--colored {
-  background-color: #e9732c;
+  background-color: #ff7626;
+}
+
+.mdl-layout__header-row {
+  padding: 0 16px;
 }
 
 .offline {
@@ -35,7 +50,7 @@
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s ease;
+  transition: opacity .2s ease;
 }
 
 .fade-enter, .fade-leave-active {

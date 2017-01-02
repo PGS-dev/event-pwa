@@ -57,7 +57,7 @@ export default {
     onSubmit() {
       const self = this;
 
-      db.ref(`events/${this.event.key}/attendees`).push(this.form, (error) => {
+      db.ref('attendees').push(this.form, (error) => {
         if (error) {
           self.errorMessage = error.code;
           return;
@@ -75,7 +75,8 @@ export default {
 
     eventRef.on('child_added', (snapshot) => {
       self.event = snapshot.val();
-      self.event.key = snapshot.key;
+      self.form.eventKey = snapshot.key;
+      self.form.eventName = self.event.title;
     });
   },
 };

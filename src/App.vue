@@ -3,19 +3,11 @@
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
+          <router-link :to="{ name: 'events' }" class="logo"></router-link>
           <!-- Title -->
-          <span class="mdl-layout-title">PGS Software - dołącz do nas</span>
+          <span class="mdl-layout-title">Wydarzenia</span>
         </div>
       </header>
-      <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">Title</span>
-        <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-        </nav>
-      </div>
       <div class="offline-message">
         Brak połączenia z internetem
       </div>
