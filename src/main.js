@@ -13,6 +13,11 @@ Vue.use(VueMdl);
 Vue.use(VueFire);
 Vue.use(VueRouter);
 
+// Check if the user is offline.
+if (!navigator.onLine) {
+  document.body.classList.add('offline');
+}
+
 window.addEventListener('online', () => {
   document.body.classList.remove('offline');
 }, false);

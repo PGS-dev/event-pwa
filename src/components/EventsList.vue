@@ -19,12 +19,22 @@
 <script>
 import { db } from '../firebase';
 
-
 export default{
   name: 'EventsList',
-  firebase: {
-    // simple syntax, bind as an array by default
-    events: db.ref('events'),
+  data() {
+    return {
+      events: [],
+    };
+  },
+  created() {
+    const eventsRef = db.ref('events');
+    const self = this;
+
+    if (navigator.onLine) {
+      eventsRef.on('value', (snapshot) => {
+        self.events = snapshot.val();
+      });
+    }
   },
 };
 
