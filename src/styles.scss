@@ -31,9 +31,14 @@
     background-color: #383839;
   }
 
-  .offline-message {
+  .offline-message, .mdl-layout__content {
     transform: translateY(55px);
   }
+}
+
+.mdl-layout__content {
+  transform: translateY(0px);
+  transition: transform 1s ease;
 }
 
 .offline-message {

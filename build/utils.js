@@ -61,7 +61,5 @@ exports.styleLoaders = function (options) {
 }
 
 exports.externals = [
-  'https://fonts.googleapis.com/icon?family=Material+Icons',
-  'https://code.getmdl.io/1.2.1/material.deep_orange-blue.min.css',
-  'https://code.getmdl.io/1.2.1/material.min.js'
+  'https://fonts.googleapis.com/icon?family=Material+Icons'
 ]

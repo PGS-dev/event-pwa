@@ -3,9 +3,12 @@ import VueRouter from 'vue-router';
 import VueFire from 'vuefire';
 import VueMdl from 'vue-mdl';
 import OfflinePlugin from 'offline-plugin/runtime';
+import 'material-design-lite/material.min.css';
+import 'material-design-lite/material.min';
 import App from './App';
 import EventsList from './components/EventsList';
 import EventDetails from './components/EventDetails';
+import EventQuiz from './components/EventQuiz';
 
 OfflinePlugin.install();
 
@@ -31,7 +34,8 @@ const router = new VueRouter({
   base: __dirname,
   routes: [
     { path: '/', name: 'events', component: EventsList },
-    { path: '/event/:seoSlug', name: 'event', component: EventDetails },
+    { path: '/event/:seoSlug', name: 'agenda', component: EventDetails },
+    { path: '/event/:seoSlug/konkurs', name: 'quiz', component: EventQuiz },
   ],
 });
 
