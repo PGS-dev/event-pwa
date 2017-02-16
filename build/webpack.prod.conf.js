@@ -76,7 +76,11 @@ var webpackConfig = merge(baseWebpackConfig, {
       chunks: ['vendor']
     }),
     new OfflinePlugin({
-      externals: utils.externals
+      externals: utils.externals,
+      ServiceWorker: {
+        entry: path.join(__dirname, '../build/sw-entry.js'),
+        events: true
+      }
     })
   ]
 })

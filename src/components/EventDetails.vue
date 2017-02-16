@@ -4,7 +4,7 @@
       <h1 class="heading">Agenda</h1>
       <h2 class="title">{{ event.title }}</h2>
     </div>
-    <div class="markdown" v-html="compiledMarkdown"></div>
+    <div class="agenda" v-html="compiledMarkdown"></div>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     compiledMarkdown() {
-      return marked(this.event.agenda, { breaks: true });
+      return marked(this.event.agenda, { gfm: true, tables: true, breaks: true });
     },
   },
   created() {
@@ -58,9 +58,21 @@ export default {
     margin: 0;
   }
 
-  .markdown {
-    h1 {
-      font-size: 22px;
+  .agenda {
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 20px 0 0 0;
+      font-size: 16px;
+
+      li {
+        border-bottom: 1px solid #dcdcdc;
+        padding: 8px 0;
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
     }
   }
 
