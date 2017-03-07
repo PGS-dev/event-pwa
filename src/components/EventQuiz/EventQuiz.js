@@ -55,15 +55,18 @@ export default {
 
     eventRef.on('value', (snapshot) => {
       self.event = find(snapshot.val(), e => e);
+      this.form.answer = '';
 
       lf.getItem('submissions').then((values) => {
         this.savedSubmissions = values || [];
-        this.activeQuestionSubmission = find(this.savedSubmissions,
-          s => s.eventKey === this.form.eventKey && s.questionId === this.activeQuestion.id);
+        this.activeQuestionSubmission = this.activeQuestion ? find(this.savedSubmissions,
+          s => s.eventKey === this.form.eventKey && s.questionId === this.activeQuestion.id) : null;
         this.activeQuestionSubmissionKey = get(this.activeQuestionSubmission, 'key');
         this.alreadySubmitted = !!this.activeQuestionSubmission;
         if (this.alreadySubmitted) {
           self.successMessage = 'Dziękujemy za udział w konkursie!';
+        } else {
+          self.successMessage = null;
         }
       });
     });
