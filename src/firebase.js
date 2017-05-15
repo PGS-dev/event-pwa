@@ -1,11 +1,12 @@
 import * as firebase from 'firebase';
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: 'AIzaSyCgcyA42Z0YZglbeVmkQArwKFxblOQPboA',
-  authDomain: 'pgs-events.firebaseapp.com',
-  databaseURL: 'https://pgs-events.firebaseio.com',
-  storageBucket: 'pgs-events.appspot.com',
-  messagingSenderId: '698328666123',
+  apiKey: 'AIzaSyCzPlXBWNmzh-p0R9xhXS4GAVRdyPUsIvc',
+  authDomain: 'pgs-events-dev.firebaseapp.com',
+  databaseURL: 'https://pgs-events-dev.firebaseio.com',
+  projectId: 'pgs-events-dev',
+  storageBucket: 'pgs-events-dev.appspot.com',
+  messagingSenderId: '950810380947',
 };
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 export const db = firebaseApp.database();
