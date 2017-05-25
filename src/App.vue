@@ -26,8 +26,23 @@
 
 export default {
   name: 'app',
+  beforeCreate() {
+    // Check if the user is offline.
+    if (!navigator.onLine) {
+      document.body.classList.add('offline');
+    }
+
+    window.addEventListener('online', () => {
+      document.body.classList.remove('offline');
+    }, false);
+
+    window.addEventListener('offline', () => {
+      document.body.classList.add('offline');
+    }, false);
+  },
 };
 
 </script>
 
 <style lang="scss" src="./styles.scss"></style>
+
