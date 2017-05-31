@@ -9,31 +9,23 @@
 </template>
 
 <script>
-import marked from 'marked';
-import { db } from '../firebase';
+  import { mapState } from 'vuex';
+  import marked from 'marked';
+  import { actionTypes as eventAction } from '../store/modules/events';
 
-export default {
-  name: 'EventDetails',
-  data() {
-    return {
-      event: null,
-    };
-  },
-  computed: {
-    compiledMarkdown() {
-      return marked(this.event.agenda, { gfm: true, tables: true, breaks: true });
+  export default {
+    name: 'EventDetails',
+    computed: mapState({
+      event: state => state.events.selectedEvent,
+      compiledMarkdown: state => marked(
+        state.events.selectedEvent.agenda,
+        { gfm: true, tables: true, breaks: true },
+      ),
+    }),
+    created() {
+      this.$store.dispatch(eventAction.GET_EVENT_DETAILS);
     },
-  },
-  created() {
-    const selectedSeoSlug = this.$route.params.seoSlug;
-    const self = this;
-    const eventRef = db.ref('events').orderByChild('seoSlug').equalTo(selectedSeoSlug);
-
-    eventRef.on('child_added', (snapshot) => {
-      self.event = snapshot.val();
-    });
-  },
-};
+  };
 
 </script>
 

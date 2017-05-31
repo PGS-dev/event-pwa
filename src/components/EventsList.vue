@@ -22,37 +22,23 @@
 </template>
 
 <script>
-  import filter from 'lodash/filter';
-  import { db } from '../firebase';
-  import lf from '../localforage';
+  import { mapState } from 'vuex';
+  import { actionTypes as eventAction } from '../store/modules/events';
 
   export default{
     name: 'EventsList',
-    data() {
-      return {
-        events: [],
-      };
-    },
+    computed: mapState({
+      events: state => state.events.events,
+    }),
     created() {
-      const eventsRef = db.ref('events');
-      const self = this;
-
-      if (navigator.onLine) {
-        eventsRef.on('value', (snapshot) => {
-          self.events = filter(snapshot.val(), e => e);
-          lf.setItem('events', self.events);
-        });
-      } else {
-        lf.getItem('events').then((value) => {
-          self.events = value;
-        });
-      }
+      this.$store.dispatch(eventAction.LOAD_EVENTS);
     },
   };
 
 </script>
 
 <style scoped lang="scss">
+
   .card.mdl-card {
     width: auto;
     max-width: 512px;
@@ -85,4 +71,5 @@
   .card > .mdl-card__menu {
     color: #fff;
   }
+
 </style>

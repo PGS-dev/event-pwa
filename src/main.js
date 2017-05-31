@@ -2,10 +2,14 @@ import Vue from 'vue';
 import VueFire from 'vuefire';
 import VueMdl from 'vue-mdl';
 import OfflinePlugin from 'offline-plugin/runtime';
+import { sync } from 'vuex-router-sync';
 import 'material-design-lite/material.min.css';
 import 'material-design-lite/material.min';
 import App from './App';
 import router from './router';
+import store from './store/index';
+
+sync(store, router);
 
 OfflinePlugin.install({
   onUpdateReady: () => {
@@ -24,7 +28,9 @@ Vue.use(VueFire);
 /* eslint-disable no-new */
 new Vue({
   router,
+  store,
   el: '#app',
   template: '<App/>',
+  //render: h => h(App),
   components: { App },
 });

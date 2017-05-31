@@ -31,11 +31,9 @@ export default {
     if (!navigator.onLine) {
       document.body.classList.add('offline');
     }
-
     window.addEventListener('online', () => {
       document.body.classList.remove('offline');
     }, false);
-
     window.addEventListener('offline', () => {
       document.body.classList.add('offline');
     }, false);
@@ -45,4 +43,3 @@ export default {
 </script>
 
 <style lang="scss" src="./styles.scss"></style>
-

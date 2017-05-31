@@ -25,7 +25,9 @@
     "vue": "^2.2.6",
     "vue-mdl": "^1.1.1",
     "vue-router": "^2.3.1",
-    "vuefire": "^1.4.2"
+    "vuefire": "^1.4.2",
+    "vuex": "^2.3.1",
+    "vuex-router-sync": "^4.1.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
