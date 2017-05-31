@@ -3,8 +3,8 @@
 </template>
 
 <script>
-  import { db } from '../firebase';
   import EventForm from './EventForm';
+  import { actionTypes as eventAction } from '../store/modules/events';
 
   export default {
     name: 'AdminAddEvent',
@@ -13,14 +13,7 @@
     },
     methods: {
       onSubmit(payload) {
-        const newEventRef = db.ref(`events/${payload.id}`);
-        newEventRef.set(payload)
-          .then(() => {
-            console.log('Event added');
-          })
-          .catch(() => {
-            console.log('Error');
-          });
+        this.$store.dispatch(eventAction.SAVE_EVENT, payload);
         this.$router.push({ name: 'admin' });
       },
     },

@@ -6,6 +6,7 @@ export const actionTypes = {
   LOAD_PARTICIPANTS: 'events/LOAD_PARTICIPANTS',
   LOAD_EVENTS: 'events/LOAD_EVENTS',
   GET_EVENT_DETAILS: 'events/GET_EVENT_DETAILS',
+  SAVE_EVENT: 'events/SAVE_EVENT',
 };
 
 const mutationTypes = {
@@ -51,6 +52,17 @@ const actions = {
       const event = snapshot.val();
       context.commit(mutationTypes.GET_EVENT_DETAILS_SUCCESS, { event });
     });
+  },
+
+  [actionTypes.SAVE_EVENT](context, payload) {
+    const newEventRef = db.ref('events').push();
+    newEventRef.set({ ...payload, id: newEventRef.key })
+          .then(() => {
+            console.log('Event added');
+          })
+          .catch(() => {
+            console.log('Error');
+          });
   },
 };
 
