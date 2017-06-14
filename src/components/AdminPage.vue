@@ -17,7 +17,7 @@
               <div class="buttons-container">
                 <router-link
                   class="mdl-button mdl-js-button mdl-button--raised"
-                  :to="{ name: 'adminEdit', params: { seoSlug: event.seoSlug }}"
+                  :to="{ name: 'adminEditEvent', params: { seoSlug: event.seoSlug }}"
                 >
                   Edytuj
                 </router-link>
@@ -28,7 +28,7 @@
                   Konkurs
                 </router-link>
                 <button
-                  class="mdl-button mdl-js-button mdl-button--raised"
+                  class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
                   @click="openModal(event.title, event.id)"
                 >
                   Usuń
@@ -54,7 +54,7 @@
     <delete-modal
       v-if="showModal"
       @close="closeModal"
-      @delete="deleteFromDatabase('events', selectedEvent.key)"
+      @delete="deleteFromDatabase(selectedEvent.key)"
     >
       <p slot="body">Na pewno chcesz usunąć wydarzenie "{{ selectedEvent.title }}"?</p>
     </delete-modal>
@@ -65,7 +65,6 @@
   import filter from 'lodash/filter';
   import { mapState } from 'vuex';
   import { actionTypes as eventAction } from '../store/modules/events';
-  import { db } from '../firebase';
   import DeleteModal from './DeleteModal';
 
   export default {
@@ -102,15 +101,9 @@
         this.showModal = false;
         this.selectedEvent = {};
       },
-      deleteFromDatabase(ref1, ref2) {
+      deleteFromDatabase(id) {
         this.closeModal();
-        db.ref(`${ref1}/${ref2}`).remove()
-          .then(() => {
-            console.log('Event removed');
-          })
-          .catch(() => {
-            console.log('Error');
-          });
+        this.$store.dispatch(eventAction.DELETE_EVENT, id);
       },
     },
   };
@@ -120,7 +113,7 @@
 <style scoped lang="scss">
 
   $tablet: 767px;
-  $mobile: 380px;
+  $mobile: 414px;
 
   .table-container {
     max-width: 512px;

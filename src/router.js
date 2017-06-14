@@ -9,6 +9,8 @@ import AdminPage from './components/AdminPage';
 import AdminEventQuestions from './components/AdminEventQuestions';
 import AdminEditEvent from './components/AdminEditEvent';
 import AdminAddEvent from './components/AdminAddEvent';
+import AdminEditQuestion from './components/AdminEditQuestion';
+import AdminAddQuestion from './components/AdminAddQuestion';
 
 Vue.use(VueRouter);
 
@@ -35,7 +37,9 @@ const router = new VueRouter({
     { path: '/login', name: 'login', component: LoginPage },
     { path: '/admin', name: 'admin', component: AdminPage, beforeEnter: requireAuth },
     { path: '/admin/:seoSlug/konkurs', name: 'adminQuestions', component: AdminEventQuestions, beforeEnter: requireAuth },
-    { path: '/admin/:seoSlug/edycja', name: 'adminEdit', component: AdminEditEvent, beforeEnter: requireAuth },
+    { path: '/admin/:seoSlug/konkurs/:questionId/edycja', name: 'adminEditQuestion', component: AdminEditQuestion, beforeEnter: requireAuth },
+    { path: '/admin/:seoSlug/konkurs/nowe-pytanie', name: 'adminAddQuestion', component: AdminAddQuestion, beforeEnter: requireAuth },
+    { path: '/admin/:seoSlug/edycja', name: 'adminEditEvent', component: AdminEditEvent, beforeEnter: requireAuth },
     { path: '/admin/nowe-wydarzenie', name: 'adminAddEvent', component: AdminAddEvent, beforeEnter: requireAuth },
   ],
 });

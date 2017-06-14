@@ -8,12 +8,20 @@
         <table class="mdl-data-table mdl-js-data-table">
           <thead>
             <tr>
+              <th>Aktywne</th>
               <th class="mdl-data-table__cell--non-numeric">Pytanie</th>
               <th>Akcje</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="question in filterNull(event.questions)">
+              <td>
+                <mdl-checkbox
+                  v-model="question.active"
+                  @change.native="updateActiveQuestion(question.id, question.active)"
+                >
+                </mdl-checkbox>
+              </td>
               <td class="mdl-data-table__cell--non-numeric">{{ question.question }}</td>
               <td>
                 <div class="buttons-container">
@@ -26,28 +34,42 @@
                   </button>
                   <router-link
                     class="mdl-button mdl-js-button mdl-button--raised"
-                    :to="{ name: 'adminEdit', params: { seoSlug: event.seoSlug }}"
+                    :to="{ name: 'adminEditQuestion', params: { questionId: question.id }}"
                   >
                     Edytuj
                   </router-link>
                   <button
-                    class="mdl-button mdl-js-button mdl-button--raised"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                    @click="openModal(question.question, question.id)"
                   >
                     Usuń
                   </button>
-                  <mdl-checkbox
-                    v-model="question.active"
-                    @change.native="updateDatabase(question.id, question.active)"
-                  >
-                    Aktywne
-                  </mdl-checkbox>
                 </div>
               </td>
             </tr>
           </tbody>
+          <tfoot>
+          <tr>
+            <td colspan="3">
+              <router-link
+                class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                :to="{ name: 'adminAddQuestion'}"
+              >
+                Dodaj pytanie
+              </router-link>
+            </td>
+          </tr>
+          </tfoot>
         </table>
       </div>
     </div>
+    <delete-modal
+      v-if="showModal"
+      @close="closeModal"
+      @delete="deleteFromDatabase(selectedQuestion.id)"
+    >
+      <p slot="body">Na pewno chcesz usunąć pytanie "{{ selectedQuestion.question }}"?</p>
+    </delete-modal>
   </div>
 </template>
 
@@ -55,57 +77,72 @@
   import { mapState } from 'vuex';
   import filter from 'lodash/filter';
   import shuffle from 'lodash/shuffle';
-  import { db } from '../firebase';
   import { actionTypes as eventAction } from '../store/modules/events';
-
+  import DeleteModal from './DeleteModal';
 
   export default {
     name: 'AdminEventQuestions',
+    components: {
+      DeleteModal,
+    },
+    data() {
+      return {
+        showModal: false,
+        selectedQuestion: {},
+      };
+    },
     computed: mapState({
       event: state => state.events.selectedEvent,
+      participants: state => state.events.participants,
     }),
     created() {
       this.$store.dispatch(eventAction.GET_EVENT_DETAILS);
+      this.$store.dispatch(eventAction.LOAD_PARTICIPANTS);
     },
     methods: {
-//      -----------------
-//      NOT CHANGED YET \/
-//      -----------------
+      openModal(question, id) {
+        this.showModal = true;
+        this.selectedQuestion.question = question;
+        this.selectedQuestion.id = id;
+      },
+      closeModal() {
+        this.showModal = false;
+        this.selectedQuestion = {};
+      },
       filterNull: collection => filter(collection, c => c.question),
+
+      //  Not sure about it but works fine \/
       draw(question, event) {
         const allCorrectAnswers = filter(this.participants, {
           questionId: question.id,
-          eventKey: event['.key'],
+          eventKey: event.id,
           answer: question.correctAnswer,
         });
-        const winner = shuffle(allCorrectAnswers)[0];
-        const questionRef = `events/${event['.key']}/questions/${question.id}`;
-        db.ref(questionRef).update({
-          drawing: true,
-        });
+        if (allCorrectAnswers.length > 0) {
+          const winner = shuffle(allCorrectAnswers)[0];
+          const questionRef = `events/${event.id}/questions/${question.id}`;
 
-        setTimeout(() => {
-          db.ref(questionRef).update({
-            drawing: false,
-            winner: winner['.key'],
-          });
-        }, 5000);
+          // TODO: participants should have an id field corresponding with their key - EventQuiz
+
+          const data1 = { questionRef, drawing: true, winner: null };
+          this.$store.dispatch(eventAction.UPDATE_QUESTION_WINNER, data1);
+
+          setTimeout(() => {
+            const data2 = { questionRef, drawing: false, winner: winner.id };
+            this.$store.dispatch(eventAction.UPDATE_QUESTION_WINNER, data2);
+          }, 5000);
+        } else {
+          console.log('0 correct answers');
+        }
       },
-//      -----------------
-//      NOT CHANGED YET ^
-//      -----------------
-      updateDatabase(id, active) {
-        const payload = {
-          active,
-        };
-        const updatedRef = db.ref(`events/${this.event.id}/questions/${id}`);
-        updatedRef.update(payload)
-          .then(() => {
-            console.log('Question edited');
-          })
-          .catch(() => {
-            console.log('Error');
-          });
+
+      updateActiveQuestion(id, isActive) {
+        const data = { id, isActive };
+        this.$store.dispatch(eventAction.UPDATE_ACTIVE_QUESTION, data);
+      },
+      deleteFromDatabase(id) {
+        this.closeModal();
+        this.$store.dispatch(eventAction.DELETE_QUESTION, id);
       },
     },
   };
@@ -114,41 +151,75 @@
 
 <style scoped lang="scss">
 
-  $mobile: 380px;
+  $tablet: 767px;
+  $mobile: 414px;
 
-  .card.mdl-card {
-    width: auto;
-    max-width: 512px;
-    margin: 0 auto 15px auto;
+  .mdl-checkbox {
+    display: block;
+    width: 20px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .mdl-card__supporting-text {
+  .card.mdl-card {
     width: 100%;
-    box-sizing: border-box;
+    max-width: 800px;
+    margin: 0 auto 15px auto;
 
-    @media(max-width: $mobile) {
-      padding: 0;
+    .mdl-card__supporting-text {
+      width: 100%;
+      box-sizing: border-box;
+
+      @media(max-width: $mobile) {
+        padding: 0;
+      }
     }
   }
 
   .mdl-data-table {
     width: 100%;
-    white-space: normal;
 
     td, th {
       text-align: center;
       white-space: normal;
     }
 
-    @media (max-width: $mobile) {
+    @media (max-width: $tablet) {
       td:last-of-type,
       th:last-of-type {
+        padding-right: 12px;
+        padding-left: 0;
+      }
+
+      td:nth-of-type(2),
+      th:nth-of-type(2) {
+        padding-left: 12px;
         padding-right: 12px;
       }
 
       td:first-of-type,
       th:first-of-type {
         padding-left: 12px;
+        padding-right: 0;
+      }
+    }
+  }
+
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+
+    @media (max-width: $tablet) {
+      flex-direction: column;
+    }
+
+    .mdl-button {
+      margin: 2px;
+
+      @media (max-width: $tablet) {
+        min-width: 20vw;
+        padding-left: 5px;
+        padding-right: 5px;
       }
     }
   }
