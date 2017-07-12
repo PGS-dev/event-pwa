@@ -80,35 +80,38 @@ const actions = {
 
   [actionTypes.SAVE_EVENT](context, payload) {
     const newEventRef = db.ref('events').push();
-    newEventRef.set({ ...payload, id: newEventRef.key })
+    return newEventRef.set({ ...payload, id: newEventRef.key })
       .then(() => {
-        console.log('Event added');
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wydarzenie zostało dodane');
       })
-      .catch(() => {
-        console.log('Error');
+      .catch((error) => {
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas dodawania wydarzenia!');
+        throw error;
       });
     context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Event saved');
   },
 
   [actionTypes.SAVE_QUESTION](context, payload) {
     const newQuestionRef = db.ref(`events/${context.state.selectedEvent.id}/questions/`).push();
-    newQuestionRef.set({ ...payload, id: newQuestionRef.key })
+    return newQuestionRef.set({ ...payload, id: newQuestionRef.key })
       .then(() => {
-        console.log('Question added');
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Pytanie zostało dodane');
       })
-      .catch(() => {
-        console.log('Error');
+      .catch((error) => {
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas dodawania pytania!');
+        throw error;
       });
   },
 
   [actionTypes.EDIT_EVENT](context, payload) {
     const updatedRef = db.ref(`events/${context.state.selectedEvent.id}`);
-    updatedRef.update(payload)
+    return updatedRef.update(payload)
       .then(() => {
-        console.log('Event edited');
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wydarzenie zostało zapisane');
       })
-      .catch(() => {
-        console.log('Error');
+      .catch((error) => {
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas zapisywania wydarzenia!');
+        throw error;
       });
   },
 
@@ -116,12 +119,13 @@ const actions = {
     const updatedRef = db.ref(
       `events/${context.state.selectedEvent.id}/questions/${context.rootState.route.params.questionId}`,
     );
-    updatedRef.update(payload)
+    return updatedRef.update(payload)
       .then(() => {
-        console.log('Question edited');
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Pytanie zostało zapisane');
       })
-      .catch(() => {
-        console.log('Error');
+      .catch((error) => {
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas zapisywania pytania!');
+        throw error;
       });
   },
 
@@ -129,12 +133,13 @@ const actions = {
     const ref = db.ref(
       `events/${id}`,
     );
-    ref.remove()
+    return ref.remove()
       .then(() => {
-        console.log('Event removed');
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wydarzenie zostało usunięte');
       })
-      .catch(() => {
-        console.log('Error');
+      .catch((error) => {
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas usuwania wydarzenia!');
+        throw error;
       });
   },
 
@@ -142,12 +147,13 @@ const actions = {
     const ref = db.ref(
       `events/${context.state.selectedEvent.id}/questions/${id}`,
     );
-    ref.remove()
+    return ref.remove()
       .then(() => {
-        console.log('Question removed');
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Pytanie zostało usunięte');
       })
-      .catch(() => {
-        console.log('Error');
+      .catch((error) => {
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas usuwania pytania!');
+        throw error;
       });
   },
 
@@ -157,12 +163,13 @@ const actions = {
       winner: null,
     };
     const updatedRef = db.ref(`events/${context.state.selectedEvent.id}/questions/${id}`);
-    updatedRef.update(payload)
+    return updatedRef.update(payload)
       .then(() => {
-        console.log('Active question chosen');
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Aktywane pytanie zostało zapisane');
       })
-      .catch(() => {
-        console.log('Error');
+      .catch((error) => {
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas zapisywania aktywnego pytania!');
+        throw error;
       });
   },
 
@@ -172,12 +179,13 @@ const actions = {
       winner,
     };
     const updatedRef = db.ref(questionRef);
-    updatedRef.update(payload)
+    return updatedRef.update(payload)
       .then(() => {
-        console.log('Active question chosen');
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Zwycięzca został wylosowany');
       })
-      .catch(() => {
-        console.log('Error');
+      .catch((error) => {
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas losowania zwicięzcy!');
+        throw error;
       });
   },
 
