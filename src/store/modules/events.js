@@ -7,6 +7,7 @@ export const actionTypes = {
   LOAD_EVENTS: 'events/LOAD_EVENTS',
   GET_EVENT_DETAILS: 'events/GET_EVENT_DETAILS',
   SAVE_EVENT: 'events/SAVE_EVENT',
+  SAVE_PARTICIPANT: 'events/SAVE_PARTICIPANT',
   SAVE_QUESTION: 'events/SAVE_QUESTION',
   EDIT_EVENT: 'events/EDIT_EVENT',
   EDIT_QUESTION: 'events/EDIT_EVENT',
@@ -63,6 +64,16 @@ const actions = {
       const event = filter(snapshot.val(), e => e)[0];
       context.commit(mutationTypes.GET_EVENT_DETAILS_SUCCESS, { event });
     });
+  },
+
+  [actionTypes.SAVE_PARTICIPANT](context, payload) {
+    const newParticipantRef = db.ref('participants').push();
+    return newParticipantRef.set({ ...payload, id: newParticipantRef.key })
+      .catch((error) => {
+        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas zapisywania odpowiedzi!');
+        throw error;
+      },
+    );
   },
 
   // TODO: Replace console.logs with proper state mutations \/
