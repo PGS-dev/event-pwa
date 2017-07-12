@@ -18,14 +18,19 @@
           </transition>
         </div>
       </main>
+      <PopupMessage></PopupMessage>
     </div>
   </div>
 </template>
 
 <script>
+import PopupMessage from './components/PopupMessage';
 
 export default {
   name: 'app',
+  components: {
+    PopupMessage,
+  },
   beforeCreate() {
     // Check if the user is offline.
     if (!navigator.onLine) {

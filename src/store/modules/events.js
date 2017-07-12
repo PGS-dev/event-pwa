@@ -14,18 +14,22 @@ export const actionTypes = {
   DELETE_QUESTION: 'events/DELETE_QUESTION',
   UPDATE_ACTIVE_QUESTION: 'events/UPDATE_ACTIVE_QUESTION',
   UPDATE_QUESTION_WINNER: 'events/UPDATE_QUESTION_WINNER',
+  CLEAR_POPUP_MESSAGE: 'events/CLEAR_POPUP_MESSAGE',
 };
 
 const mutationTypes = {
   LOAD_PARTICIPANTS_SUCCESS: 'events/LOAD_PARTICIPANTS_SUCCESS',
   LOAD_EVENTS_SUCCESS: 'events/LOAD_EVENTS_SUCCESS',
   GET_EVENT_DETAILS_SUCCESS: 'events/GET_EVENT_DETAILS_SUCCESS',
+  SHOW_POPUP_MESSAGE: 'events/SHOW_POPUP_MESSAGE',
+  CLEAR_POPUP_MESSAGE: 'events/CLEAR_POPUP_MESSAGE',
 };
 
 const state = {
   events: [],
   selectedEvent: {},
   participants: [],
+  popupMessage: null,
 };
 
 const actions = {
@@ -72,6 +76,7 @@ const actions = {
       .catch(() => {
         console.log('Error');
       });
+    context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Event saved');
   },
 
   [actionTypes.SAVE_QUESTION](context, payload) {
@@ -164,6 +169,10 @@ const actions = {
         console.log('Error');
       });
   },
+
+  [actionTypes.CLEAR_POPUP_MESSAGE](context) {
+    context.commit(mutationTypes.CLEAR_POPUP_MESSAGE);
+  },
 };
 
 const mutations = {
@@ -175,6 +184,12 @@ const mutations = {
   },
   [mutationTypes.GET_EVENT_DETAILS_SUCCESS](state, { event }) {
     state.selectedEvent = event;
+  },
+  [mutationTypes.SHOW_POPUP_MESSAGE](state, value) {
+    state.popupMessage = value;
+  },
+  [mutationTypes.CLEAR_POPUP_MESSAGE](state) {
+    state.popupMessage = null;
   },
 };
 
