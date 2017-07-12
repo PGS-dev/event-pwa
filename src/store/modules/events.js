@@ -88,7 +88,6 @@ const actions = {
         context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas dodawania wydarzenia!');
         throw error;
       });
-    context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Event saved');
   },
 
   [actionTypes.SAVE_QUESTION](context, payload) {

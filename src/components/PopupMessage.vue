@@ -17,7 +17,7 @@ import findIndex from 'lodash/findIndex';
 import { actionTypes as eventAction } from '../store/modules/events';
 
 const maxMessagesShown = 5;
-const snackbarTimeout = 5000000000;
+const snackbarTimeout = 5000;
 
 export default {
   name: 'PopupMessage',
