@@ -8,18 +8,24 @@ import 'material-design-lite/material.min';
 import App from './App';
 import router from './router';
 import store from './store/index';
+import { messaging } from './firebase';
+import { actionTypes as userAction } from './store/modules/user';
 
 sync(store, router);
 
-OfflinePlugin.install({
-  onUpdateReady: () => {
-    // Tells to new SW to take control immediately
-    OfflinePlugin.applyUpdate();
-  },
-  onUpdated: () => {
-    // Reload the webpage to load into the new version
-    window.location.reload();
-  },
+OfflinePlugin.install();
+
+// https://github.com/NekR/offline-plugin/issues/61
+navigator.serviceWorker.ready.then((reg) => {
+  messaging.useServiceWorker(reg);
+  messaging.requestPermission()
+    .then(() => messaging.getToken())
+    .then((token) => {
+      store.dispatch(userAction.TOKEN_RECEIVED, token);
+    })
+    .catch(() => {
+      store.dispatch(userAction.TOKEN_DENIED);
+    });
 });
 
 Vue.use(VueMdl);
@@ -31,6 +37,5 @@ new Vue({
   store,
   el: '#app',
   template: '<App/>',
-  //render: h => h(App),
   components: { App },
 });

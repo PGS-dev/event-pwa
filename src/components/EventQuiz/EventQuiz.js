@@ -29,7 +29,12 @@ export default {
   },
   methods: {
     onSubmit() {
-      const data = { ...this.form, questionId: this.activeQuestion.id };
+      const data = {
+        ...this.form,
+        questionId: this.activeQuestion.id,
+        eventKey: this.event.id,
+        fcmToken: this.$store.state.user.data.token,
+      };
 
       if (!this.alreadySubmitted) {
         this.$store.dispatch(eventAction.SAVE_PARTICIPANT, data)
@@ -38,28 +43,36 @@ export default {
           this.successMessage = 'Dziękujemy za udział w konkursie!';
 
           this.savedSubmissions.push(data);
-          lf.setItem('submissions', this.savedSubmissions);
         }).catch((error) => {
           this.errorMessage = error.code;
         });
       }
     },
-  },
-  created() {
-    this.$store.dispatch(eventAction.GET_EVENT_DETAILS).then(() => {
+    checkSubmission() {
       this.form.answer = '';
       lf.getItem('submissions').then((values) => {
         this.savedSubmissions = values || [];
-        this.activeQuestionSubmission = this.activeQuestion ? find(this.savedSubmissions,
-          s => s.eventKey === this.form.eventKey && s.questionId === this.activeQuestion.id) : null;
-        this.activeQuestionSubmissionKey = get(this.activeQuestionSubmission, 'key');
-        this.alreadySubmitted = !!this.activeQuestionSubmission;
-        if (this.alreadySubmitted) {
-          this.successMessage = 'Dziękujemy za udział w konkursie!';
+      });
+    },
+  },
+  watch: {
+    activeQuestion(newActiveQuestion) {
+      const self = this;
+      lf.getItem('submissions').then((values) => {
+        self.savedSubmissions = values || [];
+        self.activeQuestionSubmission = newActiveQuestion ? find(self.savedSubmissions,
+          s => s.eventKey === self.event.id && s.questionId === newActiveQuestion.id) : null;
+        self.activeQuestionSubmissionKey = get(self.activeQuestionSubmission, 'id');
+        self.alreadySubmitted = !!self.activeQuestionSubmission;
+        if (self.alreadySubmitted) {
+          self.successMessage = 'Dziękujemy za udział w konkursie!';
         } else {
-          this.successMessage = null;
+          self.successMessage = null;
         }
       });
-    });
+    },
+  },
+  created() {
+    this.$store.dispatch(eventAction.GET_EVENT_DETAILS).then(() => this.checkSubmission());
   },
 };

@@ -11,7 +11,7 @@
       <h2 class="question" v-if="!alreadySubmitted">{{activeQuestion.question}}</h2>
 
       <form v-on:submit.prevent="onSubmit" v-if="!alreadySubmitted">
-        <mdl-radio v-model="form.answer" v-for="option in activeQuestion.answers" class="answer mdl-js-ripple-effect" :val="option.id">{{option.answer}}</mdl-radio>
+        <mdl-radio v-model="form.answer" v-for="option in activeQuestion.answers" v-bind:key="option.id" class="answer mdl-js-ripple-effect" :val="option.id">{{option.answer}}</mdl-radio>
         <mdl-button class="mdl-js-ripple-effect submit-btn" colored raised>Wyślij</mdl-button>
       </form>
     </template>

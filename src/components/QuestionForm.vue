@@ -3,9 +3,7 @@
     <mdl-textfield floating-label="Pytanie" v-model="question.question"></mdl-textfield>
     <mdl-checkbox v-model="question.active">Aktywne</mdl-checkbox>
     <div class="answer-container" v-for="(answer, index) in newAnswers">
-      <mdl-radio v-model="correctAnswer" :val="answer.id">
-        <i class="material-icons">done</i>
-      </mdl-radio>
+      <mdl-radio v-model="correctAnswer" :val="answer.id"></mdl-radio>
       <mdl-textfield floating-label="Odpowiedź" v-model="answer.answer"></mdl-textfield>
       <button
         class="mdl-button mdl-js-button mdl-button--mini-fab"

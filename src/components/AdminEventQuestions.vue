@@ -74,154 +74,169 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-  import filter from 'lodash/filter';
-  import shuffle from 'lodash/shuffle';
-  import { actionTypes as eventAction } from '../store/modules/events';
-  import DeleteModal from './DeleteModal';
+import { mapState } from 'vuex';
+import filter from 'lodash/filter';
+import shuffle from 'lodash/shuffle';
+import axios from 'axios';
+import { actionTypes as eventAction } from '../store/modules/events';
+import DeleteModal from './DeleteModal';
 
-  export default {
-    name: 'AdminEventQuestions',
-    components: {
-      DeleteModal,
+export default {
+  name: 'AdminEventQuestions',
+  components: {
+    DeleteModal,
+  },
+  data() {
+    return {
+      showModal: false,
+      selectedQuestion: {},
+    };
+  },
+  computed: mapState({
+    event: state => state.events.selectedEvent,
+    participants: state => state.events.participants,
+  }),
+  created() {
+    this.$store.dispatch(eventAction.GET_EVENT_DETAILS);
+    this.$store.dispatch(eventAction.LOAD_PARTICIPANTS);
+  },
+  methods: {
+    openModal(question, id) {
+      this.showModal = true;
+      this.selectedQuestion.question = question;
+      this.selectedQuestion.id = id;
     },
-    data() {
-      return {
-        showModal: false,
-        selectedQuestion: {},
-      };
+    closeModal() {
+      this.showModal = false;
+      this.selectedQuestion = {};
     },
-    computed: mapState({
-      event: state => state.events.selectedEvent,
-      participants: state => state.events.participants,
-    }),
-    created() {
-      this.$store.dispatch(eventAction.GET_EVENT_DETAILS);
-      this.$store.dispatch(eventAction.LOAD_PARTICIPANTS);
-    },
-    methods: {
-      openModal(question, id) {
-        this.showModal = true;
-        this.selectedQuestion.question = question;
-        this.selectedQuestion.id = id;
-      },
-      closeModal() {
-        this.showModal = false;
-        this.selectedQuestion = {};
-      },
-      filterNull: collection => filter(collection, c => c.question),
+    filterNull: collection => filter(collection, c => c.question),
 
-      //  Not sure about it but works fine \/
-      draw(question, event) {
-        const allCorrectAnswers = filter(this.participants, {
-          questionId: question.id,
-          eventKey: event.id,
-          answer: question.correctAnswer,
+    draw(question, event) {
+      const allCorrectAnswers = filter(this.participants, {
+        questionId: question.id,
+        eventKey: event.id,
+        answer: question.correctAnswer,
+      });
+      if (allCorrectAnswers.length > 0) {
+        const winner = shuffle(allCorrectAnswers)[0];
+        const questionRef = `events/${event.id}/questions/${question.id}`;
+
+        this.$store.dispatch(eventAction.UPDATE_QUESTION_WINNER, {
+          questionRef,
+          drawing: true,
+          winner: null,
         });
-        if (allCorrectAnswers.length > 0) {
-          const winner = shuffle(allCorrectAnswers)[0];
-          const questionRef = `events/${event.id}/questions/${question.id}`;
 
-          // TODO: participants should have an id field corresponding with their key - EventQuiz
+        setTimeout(() => {
+          const data = { questionRef, drawing: false, winner: winner.id };
+          this.$store.dispatch(eventAction.UPDATE_QUESTION_WINNER, data);
 
-          const data1 = { questionRef, drawing: true, winner: null };
-          this.$store.dispatch(eventAction.UPDATE_QUESTION_WINNER, data1);
-
-          setTimeout(() => {
-            const data2 = { questionRef, drawing: false, winner: winner.id };
-            this.$store.dispatch(eventAction.UPDATE_QUESTION_WINNER, data2);
-          }, 5000);
-        } else {
-          console.log('0 correct answers');
-        }
-      },
-
-      updateActiveQuestion(id, isActive) {
-        const data = { id, isActive };
-        this.$store.dispatch(eventAction.UPDATE_ACTIVE_QUESTION, data);
-      },
-      deleteFromDatabase(id) {
-        this.closeModal();
-        this.$store.dispatch(eventAction.DELETE_QUESTION, id);
-      },
+          // send push notification
+          if (winner.fcmToken) {
+            axios({
+              method: 'get',
+              url: 'https://us-central1-pgs-events-dev.cloudfunctions.net/sendPushNotification',
+              params: {
+                token: winner.fcmToken,
+                reward: question.reward,
+                action: `${window.location.origin}/event/${event.seoSlug}/konkurs`,
+              },
+            });
+          }
+        }, 5000);
+      } else {
+        this.$store.dispatch(eventAction.SHOW_POPUP_MESSAGE, {
+          message: '0 poprawnych odpowiedzi',
+        });
+      }
     },
-  };
+
+    updateActiveQuestion(id, isActive) {
+      const data = { id, isActive };
+      this.$store.dispatch(eventAction.UPDATE_ACTIVE_QUESTION, data);
+    },
+    deleteFromDatabase(id) {
+      this.closeModal();
+      this.$store.dispatch(eventAction.DELETE_QUESTION, id);
+    },
+  },
+};
 
 </script>
 
 <style scoped lang="scss">
+$tablet: 767px;
+$mobile: 414px;
 
-  $tablet: 767px;
-  $mobile: 414px;
+.mdl-checkbox {
+  display: block;
+  width: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-  .mdl-checkbox {
-    display: block;
-    width: 20px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.card.mdl-card {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 15px auto;
 
-  .card.mdl-card {
+  .mdl-card__supporting-text {
     width: 100%;
-    max-width: 800px;
-    margin: 0 auto 15px auto;
+    box-sizing: border-box;
 
-    .mdl-card__supporting-text {
-      width: 100%;
-      box-sizing: border-box;
-
-      @media(max-width: $mobile) {
-        padding: 0;
-      }
+    @media(max-width: $mobile) {
+      padding: 0;
     }
   }
+}
 
-  .mdl-data-table {
-    width: 100%;
+.mdl-data-table {
+  width: 100%;
 
-    td, th {
-      text-align: center;
-      white-space: normal;
+  td,
+  th {
+    text-align: center;
+    white-space: normal;
+  }
+
+  @media (max-width: $tablet) {
+    td:last-of-type,
+    th:last-of-type {
+      padding-right: 12px;
+      padding-left: 0;
     }
+
+    td:nth-of-type(2),
+    th:nth-of-type(2) {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    td:first-of-type,
+    th:first-of-type {
+      padding-left: 12px;
+      padding-right: 0;
+    }
+  }
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: $tablet) {
+    flex-direction: column;
+  }
+
+  .mdl-button {
+    margin: 2px;
 
     @media (max-width: $tablet) {
-      td:last-of-type,
-      th:last-of-type {
-        padding-right: 12px;
-        padding-left: 0;
-      }
-
-      td:nth-of-type(2),
-      th:nth-of-type(2) {
-        padding-left: 12px;
-        padding-right: 12px;
-      }
-
-      td:first-of-type,
-      th:first-of-type {
-        padding-left: 12px;
-        padding-right: 0;
-      }
+      min-width: 20vw;
+      padding-left: 5px;
+      padding-right: 5px;
     }
   }
-
-  .buttons-container {
-    display: flex;
-    justify-content: center;
-
-    @media (max-width: $tablet) {
-      flex-direction: column;
-    }
-
-    .mdl-button {
-      margin: 2px;
-
-      @media (max-width: $tablet) {
-        min-width: 20vw;
-        padding-left: 5px;
-        padding-right: 5px;
-      }
-    }
-  }
-
+}
 </style>

@@ -25,11 +25,18 @@
 
 <script>
 import PopupMessage from './components/PopupMessage';
+import { messaging } from './firebase';
+import { actionTypes as eventAction } from './store/modules/events';
 
 export default {
   name: 'app',
   components: {
     PopupMessage,
+  },
+  data() {
+    return {
+      message: '',
+    };
   },
   beforeCreate() {
     // Check if the user is offline.
@@ -42,6 +49,13 @@ export default {
     window.addEventListener('offline', () => {
       document.body.classList.add('offline');
     }, false);
+  },
+  created() {
+    messaging.onMessage((payload) => {
+      this.$store.dispatch(eventAction.SHOW_POPUP_MESSAGE, {
+        message: payload.notification.body,
+      });
+    });
   },
 };
 

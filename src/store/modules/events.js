@@ -15,6 +15,7 @@ export const actionTypes = {
   DELETE_QUESTION: 'events/DELETE_QUESTION',
   UPDATE_ACTIVE_QUESTION: 'events/UPDATE_ACTIVE_QUESTION',
   UPDATE_QUESTION_WINNER: 'events/UPDATE_QUESTION_WINNER',
+  SHOW_POPUP_MESSAGE: 'events/SHOW_POPUP_MESSAGE',
   CLEAR_POPUP_MESSAGE: 'events/CLEAR_POPUP_MESSAGE',
 };
 
@@ -68,6 +69,11 @@ const actions = {
 
   [actionTypes.SAVE_PARTICIPANT](context, payload) {
     const newParticipantRef = db.ref('participants').push();
+    lf.getItem('submissions').then((values) => {
+      const currentSubmissions = values || [];
+      currentSubmissions.push({ ...payload, id: newParticipantRef.key });
+      lf.setItem('submissions', currentSubmissions);
+    });
     return newParticipantRef.set({ ...payload, id: newParticipantRef.key })
       .catch((error) => {
         context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas zapisywania odpowiedzi!');
@@ -186,6 +192,10 @@ const actions = {
         context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas losowania zwicięzcy!');
         throw error;
       });
+  },
+
+  [actionTypes.SHOW_POPUP_MESSAGE](context, { message }) {
+    context.commit(mutationTypes.SHOW_POPUP_MESSAGE, message);
   },
 
   [actionTypes.CLEAR_POPUP_MESSAGE](context) {

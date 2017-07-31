@@ -58,7 +58,10 @@ app.use(devMiddleware)
 
 // enable hot-reload and state-preserving
 // compilation error display
-app.use(hotMiddleware)
+// disabled when testing SW due to https://github.com/NekR/offline-plugin/issues/138
+if (!process.env.SW) {
+  app.use(hotMiddleware)
+}
 
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)

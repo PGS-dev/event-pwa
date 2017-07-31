@@ -2,6 +2,7 @@ import Vuex from 'vuex';
 import Vue from 'vue';
 
 import events from './modules/events';
+import user from './modules/user';
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ const store = new Vuex.Store({
   strict: debug,
   modules: {
     events,
+    user,
   },
 });
 

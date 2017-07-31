@@ -11,4 +11,7 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 export const db = firebaseApp.database();
 
+// Retrieve Firebase Messaging object.
+export const messaging = firebase.messaging();
+
 export default firebaseApp;
