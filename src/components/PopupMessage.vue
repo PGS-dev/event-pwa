@@ -4,7 +4,7 @@
     <div v-for="item in messagesToShow" class="list-item">
       <div class="snackbar">
         <div class="text">{{ item.text }}</div>
-        <div class="btn" @click="removeSnackbar(item.id)">Close</div>
+        <div class="btn" @click="removeSnackbar(item.id)">Zamknij</div>
       </div>
     </div>
     <!--</transition-group>-->

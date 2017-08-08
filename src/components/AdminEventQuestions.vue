@@ -14,7 +14,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="question in filterNull(event.questions)">
+            <tr v-if="filterNull(event.questions).length == 0"><td colspan="3">Brak pytań konkursowych</td></tr>
+            <tr v-for="question in filterNull(event.questions)" v-bind:key="question.id">
               <td>
                 <mdl-checkbox
                   v-model="question.active"

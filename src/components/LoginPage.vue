@@ -1,14 +1,8 @@
 <template>
   <div>
     <form v-on:submit.prevent="onSubmit">
-      <div class="mdl-textfield mdl-js-textfield">
-        <input class="mdl-textfield__input" type="email" id="email" v-model="authData.email">
-        <label class="mdl-textfield__label" for="email">Email</label>
-      </div>
-      <div class="mdl-textfield mdl-js-textfield">
-        <input class="mdl-textfield__input" type="password" id="password" v-model="authData.password">
-        <label class="mdl-textfield__label" for="password">Hasło</label>
-      </div>
+      <mdl-textfield floating-label="Email" v-model="authData.email" required></mdl-textfield>
+      <mdl-textfield type="password" floating-label="Hasło" v-model="authData.password" required></mdl-textfield>
       <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
         Zaloguj
       </button>

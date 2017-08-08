@@ -110,7 +110,6 @@ const actions = {
 
   [actionTypes.EDIT_EVENT](context, payload) {
     const updatedRef = db.ref(`events/${context.state.selectedEvent.id}`);
-    debugger;
     return updatedRef.update(payload)
       .then(() => {
         context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wydarzenie zostało zapisane');

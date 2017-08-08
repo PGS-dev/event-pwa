@@ -77,6 +77,6 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch(eventAction.GET_EVENT_DETAILS);
+    this.$store.dispatch(eventAction.GET_EVENT_DETAILS).then(() => this.checkSubmission());
   },
 };

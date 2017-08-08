@@ -1,11 +1,11 @@
 <template>
   <form class="input-container mdl-shadow--3dp" v-on:submit.prevent="onSubmit">
-    <mdl-textfield floating-label="Pytanie" v-model="question.question"></mdl-textfield>
-    <mdl-textfield floating-label="Nagroda" v-model="question.reward"></mdl-textfield>
+    <mdl-textfield floating-label="Pytanie" v-model="question.question" required></mdl-textfield>
+    <mdl-textfield floating-label="Nagroda" v-model="question.reward" required></mdl-textfield>
     <mdl-checkbox v-model="question.active">Aktywne</mdl-checkbox>
-    <div class="answer-container" v-for="(answer, index) in newAnswers">
+    <div class="answer-container" v-for="(answer, index) in newAnswers" v-bind:key="answer.id">
       <mdl-radio v-model="correctAnswer" :val="answer.id"></mdl-radio>
-      <mdl-textfield floating-label="Odpowiedź" v-model="answer.answer"></mdl-textfield>
+      <mdl-textfield floating-label="Odpowiedź" v-model="answer.answer" required></mdl-textfield>
       <button
         class="mdl-button mdl-js-button mdl-button--mini-fab"
         @click.prevent="removeAnswerField(index)"
@@ -21,9 +21,7 @@
         <i class="material-icons">add_box</i>
         Dodaj odpowiedź
       </button>
-      <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-        Zapisz
-      </button>
+      <mdl-button class="mdl-js-ripple-effect submit-btn" colored raised :disabled="newAnswers.length == 0">Zapisz</mdl-button>
     </div>
   </form>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card mdl-card mdl-shadow--2dp" v-for="event in events" v-if="event.active">
+    <div class="card mdl-card mdl-shadow--2dp" v-for="event in events" v-if="event.active" v-bind:key="event.id">
       <div class="mdl-card__title" v-bind:style="{ backgroundImage: 'url(' + event.imageUrl + ')' }">
         <h2 class="mdl-card__title-text">{{ event.title }}</h2>
       </div>
@@ -12,7 +12,7 @@
                      class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">
           Konkurs
         </router-link>
-        <router-link :to="{ name: 'agenda', params: { seoSlug: event.seoSlug }}"
+        <router-link :to="{ name: 'agenda', params: { seoSlug: event.seoSlug }}" v-if="event.agenda"
                      class="mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect">
           Agenda
         </router-link>

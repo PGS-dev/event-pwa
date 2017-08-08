@@ -1,9 +1,9 @@
 <template>
   <form class="input-container mdl-shadow--3dp" v-on:submit.prevent="onSubmit">
-    <mdl-textfield floating-label="Tytuł" v-model="event.title"></mdl-textfield>
+    <mdl-textfield floating-label="Tytuł" v-model="event.title" required></mdl-textfield>
     <mdl-textfield floating-label="Opis" v-model="event.desc"></mdl-textfield>
-    <mdl-textfield floating-label="Adres obrazka" v-model="event.imageUrl"></mdl-textfield>
-    <mdl-textfield floating-label="SEO Slug" v-model="event.seoSlug"></mdl-textfield>
+    <mdl-textfield floating-label="Adres obrazka" v-model="event.imageUrl" required></mdl-textfield>
+    <mdl-textfield floating-label="SEO Slug" v-model="event.seoSlug" required></mdl-textfield>
     <mdl-textfield floating-label="Agenda" textarea rows="8" v-model="event.agenda"></mdl-textfield>
     <div @click="showPreview" class="agenda-preview">
       <p class="agenda-preview-title">Podgląd agendy</p>
@@ -11,7 +11,7 @@
     </div>
     <div class="agenda" v-if="showAgenda" v-html="compiledMarkdown"></div>
     <mdl-checkbox v-model="event.active">Wydarzenie aktywne</mdl-checkbox>
-    <mdl-checkbox v-model="event.open">Zapisy otwarte</mdl-checkbox>
+    <mdl-checkbox v-model="event.open">Konkurs aktywny</mdl-checkbox>
     <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
       Zapisz
     </button>
@@ -99,6 +99,7 @@
       cursor: pointer;
       width: 140px;
       transition: 0.3s color;
+      padding-bottom: 15px;
 
       &-title {
         font-size: 16px;
@@ -108,6 +109,11 @@
       &:hover {
         color: #ff7626;
       }
+    }
+
+    .agenda {
+      background-color: white;
+      padding: 0 15px;
     }
   }
 
