@@ -27,7 +27,7 @@
                 <div class="buttons-container">
                   <button
                     v-on:click="draw(question, event)"
-                    :disabled="question.drawing"
+                    :disabled="question.drawing || !question.active"
                     class="mdl-button mdl-js-button mdl-button--raised"
                   >
                     Losuj

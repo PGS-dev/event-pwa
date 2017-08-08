@@ -1,6 +1,7 @@
 import { mapState } from 'vuex';
 import find from 'lodash/find';
 import get from 'lodash/get';
+import map from 'lodash/map';
 import { actionTypes as eventAction } from '../../store/modules/events';
 import lf from '../../localforage';
 
@@ -20,10 +21,12 @@ export default {
     };
   },
   computed: {
-    activeQuestion() {
-      return find(this.event.questions, { active: true });
-    },
     ...mapState({
+      activeQuestion: (state) => {
+        // convert to array
+        const selectedEventQuestions = state.events.selectedEvent ? map(state.events.selectedEvent.questions, v => v) : [];
+        return find(selectedEventQuestions, 'active');
+      },
       event: state => state.events.selectedEvent,
     }),
   },
@@ -33,7 +36,7 @@ export default {
         ...this.form,
         questionId: this.activeQuestion.id,
         eventKey: this.event.id,
-        fcmToken: this.$store.state.user.data.token,
+        fcmToken: get(this.$store, 'state.user.data.token', null),
       };
 
       if (!this.alreadySubmitted) {
@@ -64,6 +67,7 @@ export default {
           s => s.eventKey === self.event.id && s.questionId === newActiveQuestion.id) : null;
         self.activeQuestionSubmissionKey = get(self.activeQuestionSubmission, 'id');
         self.alreadySubmitted = !!self.activeQuestionSubmission;
+
         if (self.alreadySubmitted) {
           self.successMessage = 'Dziękujemy za udział w konkursie!';
         } else {
@@ -73,6 +77,6 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch(eventAction.GET_EVENT_DETAILS).then(() => this.checkSubmission());
+    this.$store.dispatch(eventAction.GET_EVENT_DETAILS);
   },
 };

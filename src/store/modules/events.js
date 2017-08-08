@@ -10,7 +10,7 @@ export const actionTypes = {
   SAVE_PARTICIPANT: 'events/SAVE_PARTICIPANT',
   SAVE_QUESTION: 'events/SAVE_QUESTION',
   EDIT_EVENT: 'events/EDIT_EVENT',
-  EDIT_QUESTION: 'events/EDIT_EVENT',
+  EDIT_QUESTION: 'events/EDIT_QUESTION',
   DELETE_EVENT: 'events/DELETE_EVENT',
   DELETE_QUESTION: 'events/DELETE_QUESTION',
   UPDATE_ACTIVE_QUESTION: 'events/UPDATE_ACTIVE_QUESTION',
@@ -110,6 +110,7 @@ const actions = {
 
   [actionTypes.EDIT_EVENT](context, payload) {
     const updatedRef = db.ref(`events/${context.state.selectedEvent.id}`);
+    debugger;
     return updatedRef.update(payload)
       .then(() => {
         context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wydarzenie zostało zapisane');

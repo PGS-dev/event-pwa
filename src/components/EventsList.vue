@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="card mdl-card mdl-shadow--2dp" v-for="event in events">
+    <div class="card mdl-card mdl-shadow--2dp" v-for="event in events" v-if="event.active">
       <div class="mdl-card__title" v-bind:style="{ backgroundImage: 'url(' + event.imageUrl + ')' }">
         <h2 class="mdl-card__title-text">{{ event.title }}</h2>
       </div>
-      <div class="mdl-card__supporting-text">
+      <div class="mdl-card__supporting-text" v-if="event.desc">
         {{ event.desc }}
       </div>
-      <div class="mdl-card__actions mdl-card--border" v-if="event.open">
-        <router-link :to="{ name: 'quiz', params: { seoSlug: event.seoSlug }}"
+      <div class="mdl-card__actions mdl-card--border">
+        <router-link :to="{ name: 'quiz', params: { seoSlug: event.seoSlug }}" v-if="event.open && event.questions"
                      class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">
           Konkurs
         </router-link>

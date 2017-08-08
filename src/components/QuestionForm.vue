@@ -1,6 +1,7 @@
 <template>
   <form class="input-container mdl-shadow--3dp" v-on:submit.prevent="onSubmit">
     <mdl-textfield floating-label="Pytanie" v-model="question.question"></mdl-textfield>
+    <mdl-textfield floating-label="Nagroda" v-model="question.reward"></mdl-textfield>
     <mdl-checkbox v-model="question.active">Aktywne</mdl-checkbox>
     <div class="answer-container" v-for="(answer, index) in newAnswers">
       <mdl-radio v-model="correctAnswer" :val="answer.id"></mdl-radio>
@@ -55,6 +56,7 @@
           return {
             question: '',
             active: false,
+            reward: '',
             answers: {},
             correctAnswer: '',
             id: '',
@@ -68,6 +70,7 @@
         const formPayload = {
           question: thisQuestion.question,
           active: thisQuestion.active,
+          reward: thisQuestion.reward,
           correctAnswer: this.correctAnswer,
           answers: this.newAnswers,
         };

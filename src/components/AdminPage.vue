@@ -116,7 +116,7 @@
   $mobile: 414px;
 
   .table-container {
-    max-width: 512px;
+    max-width: 800px;
     margin: 0 auto 15px auto;
   }
 
@@ -124,12 +124,18 @@
     width: 100%;
 
     td, th {
-      text-align: center;
+      text-align: right;
       white-space: normal;
+    }
+
+    td:nth-of-type(1),
+    th:nth-of-type(1) {
+      text-align: left;
     }
 
     td:nth-of-type(2),
     th:nth-of-type(2) {
+      text-align: center;
       padding-left: 0;
       padding-right: 0;
     }
@@ -157,7 +163,6 @@
   }
 
   .buttons-container {
-    display: flex;
 
     @media (max-width: $tablet) {
       flex-direction: column;
