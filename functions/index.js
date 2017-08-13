@@ -9,7 +9,7 @@ exports.sendPushNotification = functions.https.onRequest((req, res) => {
     method: 'post',
     url: 'https://fcm.googleapis.com/fcm/send',
     headers: {
-      Authorization: 'key=AIzaSyDuQXKoPMYNbPr5QefXS7GM108GuhUmr9g',
+      Authorization: 'key=AAAAopeh0As:APA91bERg9sohkj3qYbCPrLa_CD4pTG7XEoPTBjEptJCUMarmanYXkeyV3kVb9a5nWEgyQ74Y_oEeQ-TOEDT0IibDvqgyJMoP1YNk66OTbGTR-fSJ9j8yamGApRPNSNdcryPc5Pcp32SeT4OhSIew5-pzR7bRE6MYg',
       'Content-Type': 'application/json',
     },
     data: {

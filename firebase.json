@@ -3,6 +3,9 @@
     "public": "dist",
     "rewrites": [
       {
+        "source": "/notification", "function": "sendPushNotification"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

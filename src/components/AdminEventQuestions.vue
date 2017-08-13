@@ -137,7 +137,7 @@ export default {
           if (winner.fcmToken) {
             axios({
               method: 'get',
-              url: 'https://us-central1-pgs-events.cloudfunctions.net/sendPushNotification',
+              url: '/notification',
               params: {
                 token: winner.fcmToken,
                 reward: question.reward,
