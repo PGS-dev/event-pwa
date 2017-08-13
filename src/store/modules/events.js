@@ -186,7 +186,9 @@ const actions = {
     const updatedRef = db.ref(questionRef);
     return updatedRef.update(payload)
       .then(() => {
-        context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Zwycięzca został wylosowany');
+        if (!payload.drawing) {
+          context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Zwycięzca został wylosowany');
+        }
       })
       .catch((error) => {
         context.commit(mutationTypes.SHOW_POPUP_MESSAGE, 'Wystąpił błąd podczas losowania zwicięzcy!');
