@@ -1,6 +1,8 @@
-# event-pwa
+# PGS Events
 
 > A Progressive Web App based on Vue.js & Firebase
+
+> [https://events.pgs-soft.com](https://events.pgs-soft.com)
 
 ## Build Setup
 
