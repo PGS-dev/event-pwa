@@ -29,6 +29,7 @@ const mutationTypes = {
 
 const state = {
   events: [],
+  eventsFetched: false,
   selectedEvent: {},
   participants: [],
   popupMessage: null,
