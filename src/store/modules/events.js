@@ -211,6 +211,7 @@ const mutations = {
   },
   [mutationTypes.LOAD_EVENTS_SUCCESS](state, { events }) {
     state.events = events;
+    state.eventsFetched = true;
   },
   [mutationTypes.GET_EVENT_DETAILS_SUCCESS](state, { event }) {
     state.selectedEvent = event;

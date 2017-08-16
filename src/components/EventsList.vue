@@ -20,7 +20,7 @@
         </div>
       </div>
     </template>
-    <template v-if="activeEventsCount === 0">
+    <template v-if="eventsFetched && activeEventsCount === 0">
       <div class="info">
         <i class="material-icons">info</i>
         <p>Już wkrótce kolejne wydarzenia. Zapraszamy później!</p>
@@ -37,6 +37,7 @@
     name: 'EventsList',
     computed: mapState({
       events: state => state.events.events,
+      eventsFetched: state => state.events.eventsFetched,
       activeEventsCount: state => state.events.events.filter(e => e.active).length,
     }),
     created() {
