@@ -1,23 +1,31 @@
 <template>
   <div>
-    <div class="card mdl-card mdl-shadow--2dp" v-for="event in events" v-if="event.active" v-bind:key="event.id">
-      <div class="mdl-card__title" v-bind:style="{ backgroundImage: 'url(' + event.imageUrl + ')' }">
-        <h2 class="mdl-card__title-text">{{ event.title }}</h2>
+    <template v-if="activeEventsCount > 0">
+      <div class="card mdl-card mdl-shadow--2dp" v-for="event in events" v-if="event.active" v-bind:key="event.id">
+        <div class="mdl-card__title" v-bind:style="{ backgroundImage: 'url(' + event.imageUrl + ')' }">
+          <h2 class="mdl-card__title-text">{{ event.title }}</h2>
+        </div>
+        <div class="mdl-card__supporting-text" v-if="event.desc">
+          {{ event.desc }}
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+          <router-link :to="{ name: 'quiz', params: { seoSlug: event.seoSlug }}" v-if="event.open && event.questions"
+                       class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">
+            Konkurs
+          </router-link>
+          <router-link :to="{ name: 'agenda', params: { seoSlug: event.seoSlug }}" v-if="event.agenda"
+                       class="mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect">
+            Agenda
+          </router-link>
+        </div>
       </div>
-      <div class="mdl-card__supporting-text" v-if="event.desc">
-        {{ event.desc }}
+    </template>
+    <template v-if="activeEventsCount === 0">
+      <div class="info">
+        <i class="material-icons">info</i>
+        <p>Już wkrótce kolejne wydarzenia. Zapraszamy później!</p>
       </div>
-      <div class="mdl-card__actions mdl-card--border">
-        <router-link :to="{ name: 'quiz', params: { seoSlug: event.seoSlug }}" v-if="event.open && event.questions"
-                     class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">
-          Konkurs
-        </router-link>
-        <router-link :to="{ name: 'agenda', params: { seoSlug: event.seoSlug }}" v-if="event.agenda"
-                     class="mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect">
-          Agenda
-        </router-link>
-      </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -29,6 +37,7 @@
     name: 'EventsList',
     computed: mapState({
       events: state => state.events.events,
+      activeEventsCount: state => state.events.events.filter(e => e.active).length,
     }),
     created() {
       this.$store.dispatch(eventAction.LOAD_EVENTS);
@@ -70,6 +79,19 @@
 
   .card > .mdl-card__menu {
     color: #fff;
+  }
+
+  .info {
+    padding-top: 15px;
+    text-align: center;
+
+    i {
+      font-size: 40px;
+    }
+
+    p {
+      font-size: 20px;
+    }
   }
 
 </style>
