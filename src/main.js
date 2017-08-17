@@ -16,17 +16,21 @@ sync(store, router);
 OfflinePlugin.install();
 
 // https://github.com/NekR/offline-plugin/issues/61
-navigator.serviceWorker.ready.then((reg) => {
-  messaging.useServiceWorker(reg);
-  messaging.requestPermission()
-    .then(() => messaging.getToken())
-    .then((token) => {
-      store.dispatch(userAction.TOKEN_RECEIVED, token);
-    })
-    .catch(() => {
-      store.dispatch(userAction.TOKEN_DENIED);
-    });
-});
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.ready.then((reg) => {
+    messaging.useServiceWorker(reg);
+    messaging.requestPermission()
+      .then(() => messaging.getToken())
+      .then((token) => {
+        store.dispatch(userAction.TOKEN_RECEIVED, token);
+      })
+      .catch(() => {
+        store.dispatch(userAction.TOKEN_DENIED);
+      });
+  });
+} else {
+  store.dispatch(userAction.TOKEN_DENIED);
+}
 
 Vue.use(VueMdl);
 Vue.use(VueFire);
