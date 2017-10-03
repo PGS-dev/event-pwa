@@ -11,8 +11,21 @@
       <h2 class="question" v-if="!alreadySubmitted">{{activeQuestion.question}}</h2>
 
       <form v-on:submit.prevent="onSubmit" v-if="!alreadySubmitted">
-        <mdl-radio v-model="form.answer" v-for="option in activeQuestion.answers" class="answer mdl-js-ripple-effect" :val="option.id">{{option.answer}}</mdl-radio>
-        <mdl-button class="mdl-js-ripple-effect submit-btn" colored raised :disabled="form.answer.length == 0">Wyślij</mdl-button>
+        <label 
+          v-for="option in activeQuestion.answers"
+          v-bind:key="activeQuestion.id + option.id"
+          v-bind:class="[{ 'is-checked': form.answer === option.id }, 'mdl-radio mdl-js-radio is-upgraded answer']">
+          <input 
+            type="radio" 
+            v-model="form.answer" 
+            class="mdl-radio__button" 
+            :value="option.id"
+          >
+          <span class="mdl-radio__label">{{option.answer}}</span>
+          <span class="mdl-radio__outer-circle"></span>
+          <span class="mdl-radio__inner-circle"></span>
+        </label>
+        <mdl-button class="mdl-js-ripple-effect submit-btn" colored raised :disabled="!form.answer">Wyślij</mdl-button>
       </form>
     </template>
 
