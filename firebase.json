@@ -1,6 +1,17 @@
 {
   "hosting": {
     "public": "dist",
+     "headers": [
+      {
+        "source": "**/*.js",
+        "headers": [
+          {
+            "key": "Content-Encoding",
+            "value": "gzip"
+          }
+        ]
+      }
+    ],
     "rewrites": [
       {
         "source": "/notification", "function": "sendPushNotification"

@@ -11,14 +11,14 @@
       <h2 class="question" v-if="!alreadySubmitted">{{activeQuestion.question}}</h2>
 
       <form v-on:submit.prevent="onSubmit" v-if="!alreadySubmitted">
-        <label 
+        <label
           v-for="option in activeQuestion.answers"
           v-bind:key="activeQuestion.id + option.id"
           v-bind:class="[{ 'is-checked': form.answer === option.id }, 'mdl-radio mdl-js-radio is-upgraded answer']">
-          <input 
-            type="radio" 
-            v-model="form.answer" 
-            class="mdl-radio__button" 
+          <input
+            type="radio"
+            v-model="form.answer"
+            class="mdl-radio__button"
             :value="option.id"
           >
           <span class="mdl-radio__label">{{option.answer}}</span>
@@ -46,7 +46,9 @@
       <div class="info">
         <i class="win-icon material-icons">grade</i>
         <p>Gratulacje! Twoją wygraną jest:</p>
-        <div class="reward">{{activeQuestion.reward}}</div>
+        <div class="reward">
+          <p>{{activeQuestion.reward}}</p>
+        </div>
       </div>
     </template>
 
