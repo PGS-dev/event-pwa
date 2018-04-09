@@ -35,7 +35,13 @@
   background-color: #4786b9;
   border-radius: 5px;
   color: #ffffff;
-  font-size: 36px;
+
+  p {
+    overflow-wrap: break-word;
+    font-size: 36px;
+    line-height: 36px;
+    margin-bottom: 0px;
+  }
 }
 
 i.win-icon {
