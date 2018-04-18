@@ -19,7 +19,7 @@
               <td>
                 <mdl-checkbox
                   v-model="question.active"
-                  @change.native="updateActiveQuestion(question.id, question.active)"
+                  @change.native="updateActiveQuestion(question.id, question.active, event)"
                 >
                 </mdl-checkbox>
               </td>
@@ -139,8 +139,8 @@ export default {
               method: 'get',
               url: '/notification',
               params: {
-                token: winner.fcmToken,
-                reward: question.reward,
+                to: winner.fcmToken,
+                content: `Gratulacje! Twoja wygrana to: ${question.reward}`,
                 action: `${window.location.origin}/event/${event.seoSlug}/konkurs`,
               },
             });
@@ -153,10 +153,22 @@ export default {
       }
     },
 
-    updateActiveQuestion(id, isActive) {
+    updateActiveQuestion(id, isActive, event) {
       const data = { id, isActive };
       this.$store.dispatch(eventAction.UPDATE_ACTIVE_QUESTION, data);
+      if (isActive) {
+        axios({
+          method: 'get',
+          url: '/notification',
+          params: {
+            to: '/topics/allUsers',
+            content: 'Uwaga! Start konkursu!',
+            action: `${window.location.origin}/event/${event.seoSlug}/konkurs`,
+          },
+        });
+      }
     },
+
     deleteFromDatabase(id) {
       this.closeModal();
       this.$store.dispatch(eventAction.DELETE_QUESTION, id);
