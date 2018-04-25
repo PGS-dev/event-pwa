@@ -10,7 +10,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="event in events" :key="event.title" class="trTr">
+          <tr v-for="event in events" :key="event.title">
             <td>{{ event.title }}</td>
             <td>{{ getParticipantsNumber(event.id) }}</td>
             <td>
@@ -144,9 +144,7 @@
 </script>
 
 <style scoped lang="scss">
-  .trTr {
-    height: 150px;
-  }
+
   $tablet: 767px;
   $mobile: 414px;
 
