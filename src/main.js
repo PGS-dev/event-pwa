@@ -5,7 +5,6 @@ import OfflinePlugin from 'offline-plugin/runtime';
 import { sync } from 'vuex-router-sync';
 import 'material-design-lite/material.min.css';
 import 'material-design-lite/material.min';
-import axios from 'axios';
 import App from './App';
 import router from './router';
 import store from './store/index';
@@ -23,14 +22,6 @@ if (navigator.serviceWorker) {
       .then(() => messaging.getToken())
       .then((token) => {
         store.dispatch(userAction.TOKEN_RECEIVED, token);
-        axios({
-          method: 'get',
-          url: '/topicAssignment',
-          params: {
-            token,
-            topic: 'allUsers',
-          },
-        });
       })
       .catch(() => {
         store.dispatch(userAction.TOKEN_DENIED);

@@ -83,7 +83,6 @@ const actions = {
     );
   },
 
-  // TODO: Replace console.logs with proper state mutations \/
 
   [actionTypes.SAVE_EVENT](context, payload) {
     const newEventRef = db.ref('events').push();

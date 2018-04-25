@@ -15,7 +15,7 @@ exports.sendPushNotification = functions.https.onRequest((req, res) => {
     data: {
       notification: {
         title: 'PGS Events',
-        body: req.query.content,
+        body: Buffer.from(req.query.content, 'base64').toString(),
         icon: 'icons/android-chrome-144x144.png',
         click_action: req.query.action,
       },

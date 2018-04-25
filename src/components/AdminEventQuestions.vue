@@ -79,6 +79,7 @@ import { mapState } from 'vuex';
 import filter from 'lodash/filter';
 import shuffle from 'lodash/shuffle';
 import axios from 'axios';
+import { Buffer } from 'buffer';
 import { actionTypes as eventAction } from '../store/modules/events';
 import DeleteModal from './DeleteModal';
 
@@ -135,12 +136,10 @@ export default {
 
           // send push notification
           if (winner.fcmToken) {
-            axios({
-              method: 'get',
-              url: '/notification',
+            axios.get('/notification', {
               params: {
                 to: winner.fcmToken,
-                content: `Gratulacje! Twoja wygrana to: ${question.reward}`,
+                content: Buffer.from(`Gratulacje! Twoją wygraną jest: ${question.reward}`).toString('base64'),
                 action: `${window.location.origin}/event/${event.seoSlug}/konkurs`,
               },
             });
@@ -157,12 +156,10 @@ export default {
       const data = { id, isActive };
       this.$store.dispatch(eventAction.UPDATE_ACTIVE_QUESTION, data);
       if (isActive) {
-        axios({
-          method: 'get',
-          url: '/notification',
+        axios.get('/notification', {
           params: {
-            to: '/topics/allUsers',
-            content: 'Uwaga! Start konkursu!',
+            to: `/topics/${event.seoSlug}`,
+            content: Buffer.from('Uwaga! Pytanie jest aktywne!').toString('base64'),
             action: `${window.location.origin}/event/${event.seoSlug}/konkurs`,
           },
         });
@@ -198,7 +195,7 @@ $mobile: 414px;
     width: 100%;
     box-sizing: border-box;
 
-    @media(max-width: $mobile) {
+    @media (max-width: $mobile) {
       padding: 0;
     }
   }
