@@ -19,7 +19,7 @@
               <td>
                 <mdl-checkbox
                   v-model="question.active"
-                  @change.native="updateActiveQuestion(question.id, question.active)"
+                  @change.native="updateActiveQuestion(question.id, question.active, event)"
                 >
                 </mdl-checkbox>
               </td>
@@ -79,6 +79,7 @@ import { mapState } from 'vuex';
 import filter from 'lodash/filter';
 import shuffle from 'lodash/shuffle';
 import axios from 'axios';
+import { Buffer } from 'buffer';
 import { actionTypes as eventAction } from '../store/modules/events';
 import DeleteModal from './DeleteModal';
 
@@ -135,12 +136,10 @@ export default {
 
           // send push notification
           if (winner.fcmToken) {
-            axios({
-              method: 'get',
-              url: '/notification',
+            axios.get('/notification', {
               params: {
-                token: winner.fcmToken,
-                reward: question.reward,
+                to: winner.fcmToken,
+                content: Buffer.from(`Gratulacje! Twoją wygraną jest: ${question.reward}`).toString('base64'),
                 action: `${window.location.origin}/event/${event.seoSlug}/konkurs`,
               },
             });
@@ -153,10 +152,20 @@ export default {
       }
     },
 
-    updateActiveQuestion(id, isActive) {
+    updateActiveQuestion(id, isActive, event) {
       const data = { id, isActive };
       this.$store.dispatch(eventAction.UPDATE_ACTIVE_QUESTION, data);
+      if (isActive) {
+        axios.get('/notification', {
+          params: {
+            to: `/topics/${event.seoSlug}`,
+            content: Buffer.from('Uwaga! Pytanie jest aktywne!').toString('base64'),
+            action: `${window.location.origin}/event/${event.seoSlug}/konkurs`,
+          },
+        });
+      }
     },
+
     deleteFromDatabase(id) {
       this.closeModal();
       this.$store.dispatch(eventAction.DELETE_QUESTION, id);
@@ -186,7 +195,7 @@ $mobile: 414px;
     width: 100%;
     box-sizing: border-box;
 
-    @media(max-width: $mobile) {
+    @media (max-width: $mobile) {
       padding: 0;
     }
   }

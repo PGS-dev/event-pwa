@@ -11,18 +11,46 @@
 <script>
   import { mapState } from 'vuex';
   import marked from 'marked';
+  import axios from 'axios';
+
   import { actionTypes as eventAction } from '../store/modules/events';
+  import { actionTypes as userActions } from '../store/modules/user';
+
 
   export default {
     name: 'EventDetails',
     computed: mapState({
       event: state => state.events.selectedEvent,
+      token: state => state.user.token,
+      assignedTopics: state => state.user.assignedTopics,
       compiledMarkdown: state => marked(
         state.events.selectedEvent.agenda,
         { gfm: true, tables: true, breaks: true },
       ),
     }),
+    methods: {
+      assignTopic(token) {
+        const topic = this.$route.params.seoSlug;
+        if (this.assignedTopics.indexOf(topic) === -1) {
+          axios.get('/topicAssignment', {
+            params: {
+              token,
+              topic,
+            },
+          });
+          this.$store.dispatch(userActions.TOPIC_ASSIGNED, topic);
+        }
+      },
+    },
+    watch: {
+      token(token) {
+        this.assignTopic(token);
+      },
+    },
     created() {
+      if (this.token && typeof this.token === 'string') {
+        this.assignTopic(this.token);
+      }
       this.$store.dispatch(eventAction.GET_EVENT_DETAILS);
     },
   };

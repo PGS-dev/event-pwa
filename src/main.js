@@ -14,7 +14,6 @@ import { actionTypes as userAction } from './store/modules/user';
 sync(store, router);
 
 OfflinePlugin.install();
-
 // https://github.com/NekR/offline-plugin/issues/61
 if (navigator.serviceWorker) {
   navigator.serviceWorker.ready.then((reg) => {

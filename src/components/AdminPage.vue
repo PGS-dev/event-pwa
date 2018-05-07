@@ -10,7 +10,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="event in events">
+          <tr v-for="event in events" :key="event.title">
             <td>{{ event.title }}</td>
             <td>{{ getParticipantsNumber(event.id) }}</td>
             <td>
@@ -29,9 +29,15 @@
                 </router-link>
                 <button
                   class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
-                  @click="openModal(event.title, event.id)"
+                  @click="openModal('notifyModal', event.title, event.id, event.seoSlug)"
                 >
-                  Usuń
+                  <i class="material-icons">notifications</i>
+                </button>
+                <button
+                  class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                  @click="openModal('deleteModal', event.title, event.id, event.seoSlug)"
+                >
+                  <i class="material-icons">delete</i>
                 </button>
               </div>
             </td>
@@ -52,29 +58,43 @@
       </table>
     </div>
     <delete-modal
-      v-if="showModal"
-      @close="closeModal"
+      v-if="deleteModal"
+      @close="closeModals"
       @delete="deleteFromDatabase(selectedEvent.key)"
     >
       <p slot="body">Na pewno chcesz usunąć wydarzenie "{{ selectedEvent.title }}"?</p>
     </delete-modal>
+    <notify-modal
+      v-if="notifyModal"
+      @close="closeModals"
+      @notify="notifyUsers"
+    >
+    </notify-modal>
   </div>
+
 </template>
 
 <script>
   import filter from 'lodash/filter';
   import { mapState } from 'vuex';
+  import axios from 'axios';
+  import { Buffer } from 'buffer';
+
   import { actionTypes as eventAction } from '../store/modules/events';
   import DeleteModal from './DeleteModal';
+  import NotifyModal from './NotifyModal';
 
   export default {
     name: 'AdminPage',
     components: {
       DeleteModal,
+      NotifyModal,
     },
     data() {
       return {
-        showModal: false,
+        deleteModal: false,
+        notifyModal: false,
+        notification: '',
         selectedEvent: {},
       };
     },
@@ -92,18 +112,31 @@
       getParticipantsNumber(key) {
         return filter(this.participants, { eventKey: key }).length;
       },
-      openModal(title, id) {
-        this.showModal = true;
+      openModal(modal, title, id, seoSlug) {
+        this[modal] = true;
         this.selectedEvent.title = title;
         this.selectedEvent.key = id;
+        this.selectedEvent.seoSlug = seoSlug;
       },
-      closeModal() {
-        this.showModal = false;
+      closeModals() {
+        this.deleteModal = false;
+        this.notifyModal = false;
         this.selectedEvent = {};
       },
       deleteFromDatabase(id) {
-        this.closeModal();
+        this.closeModals();
         this.$store.dispatch(eventAction.DELETE_EVENT, id);
+      },
+      notifyUsers([notification, contest]) {
+        const topic = this.selectedEvent.seoSlug;
+        axios.get('/notification', {
+          params: {
+            to: `/topics/${topic}`,
+            content: Buffer.from(notification).toString('base64'),
+            action: `${window.location.origin}/event/${topic}/${contest === 'true' ? 'konkurs' : ''}`,
+          },
+        });
+        this.closeModals();
       },
     },
   };
@@ -163,6 +196,8 @@
   }
 
   .buttons-container {
+    display: flex;
+    justify-content: flex-end;
 
     @media (max-width: $tablet) {
       flex-direction: column;

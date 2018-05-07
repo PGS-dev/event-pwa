@@ -2,7 +2,11 @@ import { mapState } from 'vuex';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import map from 'lodash/map';
+import axios from 'axios';
+import { Buffer } from 'buffer';
+
 import { actionTypes as eventAction } from '../../store/modules/events';
+import { actionTypes as userActions } from '../../store/modules/user';
 import lf from '../../localforage';
 
 export default {
@@ -28,6 +32,8 @@ export default {
         return find(selectedEventQuestions, 'active');
       },
       event: state => state.events.selectedEvent,
+      token: state => state.user.token,
+      assignedTopics: state => state.user.assignedTopics,
     }),
   },
   methods: {
@@ -36,7 +42,7 @@ export default {
         ...this.form,
         questionId: this.activeQuestion.id,
         eventKey: this.event.id,
-        fcmToken: get(this.$store, 'state.user.data.token', null),
+        fcmToken: this.token,
       };
 
       if (!this.alreadySubmitted) {
@@ -57,6 +63,18 @@ export default {
         this.savedSubmissions = values || [];
       });
     },
+    assignTopic(token) {
+      const topic = this.$route.params.seoSlug;
+      if (this.assignedTopics.indexOf(topic) === -1) {
+        axios.get('/topicAssignment', {
+          params: {
+            token,
+            topic,
+          },
+        });
+        this.$store.dispatch(userActions.TOPIC_ASSIGNED, topic);
+      }
+    },
   },
   watch: {
     activeQuestion(newActiveQuestion) {
@@ -75,8 +93,14 @@ export default {
         }
       });
     },
+    token(token) {
+      this.assignTopic(token);
+    },
   },
   created() {
+    if (this.token && typeof this.token === 'string') {
+      this.assignTopic(this.token);
+    }
     this.$store.dispatch(eventAction.GET_EVENT_DETAILS).then(() => this.checkSubmission());
   },
 };

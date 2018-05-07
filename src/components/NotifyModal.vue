@@ -4,27 +4,29 @@
       <div class="modal-container">
 
         <div class="modal-header">
-          <h3>Jesteś pewien?</h3>
+          <h3>Powiadomienie</h3>
         </div>
 
         <div class="modal-body">
-          <slot name="body">
-            default body
-          </slot>
+          <form v-on:submit.prevent="onSubmit">
+            <mdl-textfield floating-label="Tytuł" textarea rows="3" v-model="notification"></mdl-textfield>
+            <mdl-radio v-model="contest" class="modal-radio" val="true" checked>Konkurs</mdl-radio>
+            <mdl-radio v-model="contest" class="modal-radio" val="false">Agenda</mdl-radio>
+          </form>
         </div>
 
         <div class="modal-footer">
           <button
             class="mdl-button mdl-button--accent mdl-button--raised mdl-js-button mdl-js-ripple-effect"
-            @click="$emit('delete')"
+            @click="$emit('notify', [notification, contest])"
           >
-            Tak
+            Wyślij
           </button>
           <button
             class="mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect"
             @click="$emit('close')"
           >
-            Nie
+            Wróć
           </button>
         </div>
 
@@ -36,11 +38,16 @@
 <script>
 
   export default {
-    name: 'DeleteModal',
+    name: 'NotifyModal',
+    data() {
+      return {
+        notification: '',
+        contest: 'true',
+      };
+    },
   };
 
 </script>
-
 
 <style scoped lang="scss">
 
@@ -85,6 +92,10 @@
 
     &-body {
       margin: 20px 0;
+    }
+    &-radio {
+      text-align: start;
+      width: 100%;
     }
 
     &-footer {
