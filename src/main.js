@@ -7,9 +7,6 @@ import store from './store/index';
 import './registerServiceWorker';
 import { sync } from 'vuex-router-sync';
 
-import 'material-design-lite/material.min.css';
-import 'material-design-lite/material.min';
-
 sync(store, router);
 
 Vue.config.productionTip = false;
