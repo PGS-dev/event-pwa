@@ -1,29 +1,64 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <router-link :to="{ name: 'events' }" class="logo"></router-link>
+          <!-- Title -->
+          <span class="mdl-layout-title">Wydarzenia <strong>NEW!</strong></span>
+        </div>
+      </header>
+      <div class="offline-message">
+        Brak połączenia z internetem
+      </div>
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          <transition name="fade" mode="out-in">
+            <router-view class="view"></router-view>
+          </transition>
+        </div>
+      </main>
+      <PopupMessage></PopupMessage>
     </div>
-    <router-view/>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import PopupMessage from './components/PopupMessage';
+import { messaging } from './firebase';
+import { actionTypes as eventAction } from './store/modules/events';
+
+export default {
+  name: 'app',
+  components: {
+    PopupMessage,
+  },
+  data() {
+    return {
+      message: '',
+    };
+  },
+  beforeCreate() {
+    // Check if the user is offline.
+    if (!navigator.onLine) {
+      document.body.classList.add('offline');
     }
-  }
-}
-</style>
+    window.addEventListener('online', () => {
+      document.body.classList.remove('offline');
+    }, false);
+    window.addEventListener('offline', () => {
+      document.body.classList.add('offline');
+    }, false);
+  },
+  created() {
+    messaging.onMessage((payload) => {
+      this.$store.dispatch(eventAction.SHOW_POPUP_MESSAGE, {
+        message: payload.notification.body,
+      });
+    });
+  },
+};
+
+</script>
+
+<style lang="scss" src="./styles.scss"></style>

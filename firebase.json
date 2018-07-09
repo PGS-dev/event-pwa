@@ -1,0 +1,28 @@
+{
+  "hosting": {
+    "public": "dist",
+    "headers": [
+      {
+        "source": "**/*.js",
+        "headers": [
+          {
+            "key": "Content-Encoding",
+            "value": "gzip"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/notification", "function": "sendPushNotification"
+      },
+      {
+        "source": "/topicAssignment", "function": "topicAssignment"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
