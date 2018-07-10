@@ -5,7 +5,7 @@
         <div class="mdl-layout__header-row">
           <router-link :to="{ name: 'events' }" class="logo"></router-link>
           <!-- Title -->
-          <span class="mdl-layout-title">Wydarzenia <strong>NEW!</strong></span>
+          <span class="mdl-layout-title">Wydarzenia</span>
         </div>
       </header>
       <div class="offline-message">
