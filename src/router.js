@@ -15,7 +15,7 @@ import AdminAddQuestion from './components/AdminAddQuestion';
 Vue.use(VueRouter);
 
 const requireAuth = (to, from, next) => {
-  firebase.auth().onAuthStateChanged((user) => {
+  firebase.auth().onAuthStateChanged(user => {
     if (user && !user.isAnonymous) {
       next();
     } else {
@@ -36,22 +36,40 @@ const router = new VueRouter({
     { path: '/event/:seoSlug/konkurs', name: 'quiz', component: EventQuiz },
     { path: '/login', name: 'login', component: LoginPage },
     {
-      path: '/admin', name: 'admin', component: AdminPage, beforeEnter: requireAuth,
+      path: '/admin',
+      name: 'admin',
+      component: AdminPage,
+      beforeEnter: requireAuth,
     },
     {
-      path: '/admin/:seoSlug/konkurs', name: 'adminQuestions', component: AdminEventQuestions, beforeEnter: requireAuth,
+      path: '/admin/:seoSlug/konkurs',
+      name: 'adminQuestions',
+      component: AdminEventQuestions,
+      beforeEnter: requireAuth,
     },
     {
-      path: '/admin/:seoSlug/konkurs/:questionId/edycja', name: 'adminEditQuestion', component: AdminEditQuestion, beforeEnter: requireAuth,
+      path: '/admin/:seoSlug/konkurs/:questionId/edycja',
+      name: 'adminEditQuestion',
+      component: AdminEditQuestion,
+      beforeEnter: requireAuth,
     },
     {
-      path: '/admin/:seoSlug/konkurs/nowe-pytanie', name: 'adminAddQuestion', component: AdminAddQuestion, beforeEnter: requireAuth,
+      path: '/admin/:seoSlug/konkurs/nowe-pytanie',
+      name: 'adminAddQuestion',
+      component: AdminAddQuestion,
+      beforeEnter: requireAuth,
     },
     {
-      path: '/admin/:seoSlug/edycja', name: 'adminEditEvent', component: AdminEditEvent, beforeEnter: requireAuth,
+      path: '/admin/:seoSlug/edycja',
+      name: 'adminEditEvent',
+      component: AdminEditEvent,
+      beforeEnter: requireAuth,
     },
     {
-      path: '/admin/nowe-wydarzenie', name: 'adminAddEvent', component: AdminAddEvent, beforeEnter: requireAuth,
+      path: '/admin/nowe-wydarzenie',
+      name: 'adminAddEvent',
+      component: AdminAddEvent,
+      beforeEnter: requireAuth,
     },
   ],
 });

@@ -45,10 +45,8 @@ export default {
     },
   },
   computed: {
-    compiledMarkdown: props => marked(
-      props.event.agenda,
-      { gfm: true, tables: true, breaks: true },
-    ),
+    compiledMarkdown: props =>
+      marked(props.event.agenda, { gfm: true, tables: true, breaks: true }),
   },
   methods: {
     onSubmit() {
@@ -65,69 +63,68 @@ export default {
       this.$emit('submitted', formPayload);
     },
     showPreview() {
-      this.showAgenda = !this.showAgenda ? this.showAgenda = true : this.showAgenda = false;
+      this.showAgenda = !this.showAgenda
+        ? (this.showAgenda = true)
+        : (this.showAgenda = false);
     },
   },
 };
-
 </script>
 
 <style scoped lang="scss">
+.input-container {
+  padding: 10px;
+  background: #f9f9f9;
+  max-width: 800px;
+  margin: 0 auto 0 auto;
 
-  .input-container {
-    padding: 10px;
-    background: #f9f9f9;
-    max-width: 800px;
-    margin: 0 auto 0 auto;
+  .mdl-textfield {
+    width: 800px;
+    display: inline-block;
+  }
 
-    .mdl-textfield {
-      width: 800px;
-      display: inline-block;
+  .mdl-textarea {
+    margin-right: 20px;
+  }
+
+  .mdl-checkbox {
+    margin-bottom: 10px;
+  }
+
+  .agenda-preview {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 140px;
+    transition: 0.3s color;
+    padding-bottom: 15px;
+
+    &-title {
+      font-size: 16px;
+      margin: 0;
     }
 
-    .mdl-textarea {
-      margin-right: 20px;
-    }
-
-    .mdl-checkbox {
-      margin-bottom: 10px;
-    }
-
-    .agenda-preview {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      width: 140px;
-      transition: 0.3s color;
-      padding-bottom: 15px;
-
-      &-title {
-        font-size: 16px;
-        margin: 0;
-      }
-
-      &:hover {
-        color: #ff7626;
-      }
-    }
-
-    .agenda {
-      background-color: white;
-      padding: 0 15px;
+    &:hover {
+      color: #ff7626;
     }
   }
 
-  .mdl-button {
-    margin-right: 0;
-    margin-left: 0;
+  .agenda {
+    background-color: white;
+    padding: 0 15px;
   }
+}
 
-  .material-icons {
-    transition: 0.3s transform;
-  }
+.mdl-button {
+  margin-right: 0;
+  margin-left: 0;
+}
 
-  .is-rotated {
-    transform: rotate(90deg);
-  }
+.material-icons {
+  transition: 0.3s transform;
+}
 
+.is-rotated {
+  transform: rotate(90deg);
+}
 </style>

@@ -25,12 +25,13 @@ export default {
   },
   methods: {
     onSubmit() {
-      firebase.auth().signInWithEmailAndPassword(this.authData.email, this.authData.password)
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.authData.email, this.authData.password)
         .then(() => {
           this.$router.push({ name: 'admin' });
         });
     },
   },
 };
-
 </script>

@@ -16,10 +16,9 @@ export default {
   components: {
     QuestionForm,
   },
-  computed:
-      mapState({
-        event: state => state.events.selectedEvent,
-      }),
+  computed: mapState({
+    event: state => state.events.selectedEvent,
+  }),
   created() {
     this.$store.dispatch(eventAction.GET_EVENT_DETAILS);
   },
@@ -30,5 +29,4 @@ export default {
     },
   },
 };
-
 </script>

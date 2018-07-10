@@ -22,18 +22,22 @@ describe('AdminPage.vue', () => {
   });
 
   it('should render proper title', () => {
-    expect(vm.$el.querySelectorAll('tbody tr')[0]
-      .querySelectorAll('td')[0]
-      .innerText).to.equal(events[0].title);
+    expect(
+      vm.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td')[0]
+        .innerText,
+    ).to.equal(events[0].title);
   });
 
   it('should render proper participants amount', () => {
-    expect(vm.$el.querySelectorAll('tbody tr')[0]
-      .querySelectorAll('td')[1]
-      .innerText).to.equal(events[0].participants);
+    expect(
+      vm.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td')[1]
+        .innerText,
+    ).to.equal(events[0].participants);
   });
 
   it('Konkurs - should render <a> tag with proper href ', () => {
-    expect(vm.$el.querySelectorAll('a.mdl-button')[0].href).to.contain(`/admin/${events[0].seoSlug}/konkurs`);
+    expect(vm.$el.querySelectorAll('a.mdl-button')[0].href).to.contain(
+      `/admin/${events[0].seoSlug}/konkurs`,
+    );
   });
 });

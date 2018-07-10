@@ -43,22 +43,30 @@ export default {
     if (!navigator.onLine) {
       document.body.classList.add('offline');
     }
-    window.addEventListener('online', () => {
-      document.body.classList.remove('offline');
-    }, false);
-    window.addEventListener('offline', () => {
-      document.body.classList.add('offline');
-    }, false);
+    window.addEventListener(
+      'online',
+      () => {
+        document.body.classList.remove('offline');
+      },
+      false,
+    );
+    window.addEventListener(
+      'offline',
+      () => {
+        document.body.classList.add('offline');
+      },
+      false,
+    );
   },
   created() {
-    messaging.onMessage((payload) => {
+    messaging.onMessage(payload => {
       this.$store.dispatch(eventAction.SHOW_POPUP_MESSAGE, {
         message: payload.notification.body,
       });
     });
   },
 };
-
 </script>
 
-<style lang="scss" src="./styles.scss"></style>
+<style lang="scss" src="./styles.scss">
+</style>

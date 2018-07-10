@@ -27,7 +27,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'QuestionForm',
   data() {
@@ -91,42 +90,39 @@ export default {
     },
   },
 };
-
 </script>
 
 <style scoped lang="scss">
+.input-container {
+  padding: 10px;
+  background: #f9f9f9;
+  max-width: 800px;
+  margin: 0 auto 0 auto;
 
-  .input-container {
-    padding: 10px;
-    background: #f9f9f9;
-    max-width: 800px;
-    margin: 0 auto 0 auto;
+  .mdl-textfield {
+    width: 800px;
+    display: inline-block;
+  }
+}
 
-    .mdl-textfield {
-      width: 800px;
-      display: inline-block;
-    }
+.answer-container {
+  display: flex;
+  align-items: center;
+
+  .mdl-checkbox {
+    max-width: 60px;
   }
 
-  .answer-container {
-    display: flex;
-    align-items: center;
-
-    .mdl-checkbox {
-      max-width: 60px;
-    }
-
-    .mdl-button {
-      min-width: 30px;
-      padding-left: 0;
-      padding-right: 0;
-    }
+  .mdl-button {
+    min-width: 30px;
+    padding-left: 0;
+    padding-right: 0;
   }
+}
 
-  .footer {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-  }
-
+.footer {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
 </style>

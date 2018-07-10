@@ -57,7 +57,7 @@ export default {
     onSubmit() {
       const self = this;
 
-      db.ref('attendees').push(this.form, (error) => {
+      db.ref('attendees').push(this.form, error => {
         if (error) {
           self.errorMessage = error.code;
           return;
@@ -71,58 +71,59 @@ export default {
   created() {
     const selectedSeoSlug = this.$route.params.seoSlug;
     const self = this;
-    const eventRef = db.ref('events').orderByChild('seoSlug').equalTo(selectedSeoSlug);
+    const eventRef = db
+      .ref('events')
+      .orderByChild('seoSlug')
+      .equalTo(selectedSeoSlug);
 
-    eventRef.on('child_added', (snapshot) => {
+    eventRef.on('child_added', snapshot => {
       self.event = snapshot.val();
       self.form.eventKey = snapshot.key;
       self.form.eventName = self.event.title;
     });
   },
 };
-
 </script>
 
 <style scoped lang="scss">
+.header {
+  background-color: #f9f9f9;
+  margin: -15px -15px 0 -15px;
+  padding: 15px;
+  border-bottom: 1px solid #dcdcdc;
+}
 
-  .header {
-    background-color: #f9f9f9;
-    margin: -15px -15px 0 -15px;
-    padding: 15px;
-    border-bottom: 1px solid #dcdcdc;
-  }
+.heading {
+  font-size: 20px;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.26);
+}
 
-  .heading {
-    font-size: 20px;
-    margin: 0;
-    color: rgba(0, 0, 0, .26);
-  }
+.title {
+  font-size: 24px;
+  line-height: 24px;
+  margin: 0;
+}
 
-  .title {
-    font-size: 24px;
-    line-height: 24px;
-    margin: 0;
-  }
+.submit-btn {
+  margin-top: 15px;
+  display: block;
+  width: 100%;
+}
 
-  .submit-btn {
-    margin-top: 15px;
-    display: block;
-    width: 100%;
-  }
+.success,
+.error {
+  margin-top: 15px;
+  border-radius: 3px;
+  padding: 15px;
+  color: white;
+}
 
-  .success, .error {
-    margin-top: 15px;
-    border-radius: 3px;
-    padding: 15px;
-    color: white;
-  }
+.success {
+  background-color: forestgreen;
+}
 
-  .success {
-    background-color: forestgreen;
-  }
-
-  .error {
-    background-color: #ff5722;
-  }
-
+.error {
+  background-color: #ff5722;
+}
 </style>

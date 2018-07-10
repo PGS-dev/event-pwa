@@ -133,75 +133,75 @@ export default {
         params: {
           to: `/topics/${topic}`,
           content: Buffer.from(notification).toString('base64'),
-          action: `${window.location.origin}/event/${topic}/${contest === 'true' ? 'konkurs' : ''}`,
+          action: `${window.location.origin}/event/${topic}/${
+            contest === 'true' ? 'konkurs' : ''
+          }`,
         },
       });
       this.closeModals();
     },
   },
 };
-
 </script>
 
 <style scoped lang="scss">
+$tablet: 767px;
+$mobile: 414px;
 
-  $tablet: 767px;
-  $mobile: 414px;
+.table-container {
+  max-width: 800px;
+  margin: 0 auto 15px auto;
+}
 
-  .table-container {
-    max-width: 800px;
-    margin: 0 auto 15px auto;
+.mdl-data-table {
+  width: 100%;
+
+  td,
+  th {
+    text-align: right;
+    white-space: normal;
   }
 
-  .mdl-data-table {
-    width: 100%;
-
-    td, th {
-      text-align: right;
-      white-space: normal;
-    }
-
-    td:nth-of-type(1),
-    th:nth-of-type(1) {
-      text-align: left;
-    }
-
-    td:nth-of-type(2),
-    th:nth-of-type(2) {
-      text-align: center;
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    @media (max-width: $mobile) {
-      td:last-of-type,
-      th:last-of-type {
-        padding-right: 12px;
-      }
-
-      td:first-of-type,
-      th:first-of-type {
-        padding-left: 12px;
-      }
-    }
+  td:nth-of-type(1),
+  th:nth-of-type(1) {
+    text-align: left;
   }
 
-  .mdl-button {
-    margin: 2px;
-
-    @media (max-width: $tablet) {
-      padding-left: 5px;
-      padding-right: 5px;
-    }
+  td:nth-of-type(2),
+  th:nth-of-type(2) {
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
   }
 
-  .buttons-container {
-    display: flex;
-    justify-content: flex-end;
+  @media (max-width: $mobile) {
+    td:last-of-type,
+    th:last-of-type {
+      padding-right: 12px;
+    }
 
-    @media (max-width: $tablet) {
-      flex-direction: column;
+    td:first-of-type,
+    th:first-of-type {
+      padding-left: 12px;
     }
   }
+}
 
+.mdl-button {
+  margin: 2px;
+
+  @media (max-width: $tablet) {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: flex-end;
+
+  @media (max-width: $tablet) {
+    flex-direction: column;
+  }
+}
 </style>

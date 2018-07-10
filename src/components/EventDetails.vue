@@ -22,10 +22,12 @@ export default {
     event: state => state.events.selectedEvent,
     token: state => state.user.token,
     assignedTopics: state => state.user.assignedTopics,
-    compiledMarkdown: state => marked(
-      state.events.selectedEvent.agenda,
-      { gfm: true, tables: true, breaks: true },
-    ),
+    compiledMarkdown: state =>
+      marked(state.events.selectedEvent.agenda, {
+        gfm: true,
+        tables: true,
+        breaks: true,
+      }),
   }),
   methods: {
     assignTopic(token) {
@@ -53,46 +55,43 @@ export default {
     this.$store.dispatch(eventAction.GET_EVENT_DETAILS);
   },
 };
-
 </script>
 
 <style lang="scss">
+.header {
+  background-color: #f9f9f9;
+  margin: -15px -15px 0 -15px;
+  padding: 15px;
+  border-bottom: 1px solid #dcdcdc;
+}
 
-  .header {
-    background-color: #f9f9f9;
-    margin: -15px -15px 0 -15px;
-    padding: 15px;
-    border-bottom: 1px solid #dcdcdc;
-  }
+.heading {
+  font-size: 20px;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.26);
+}
 
-  .heading {
-    font-size: 20px;
+.title {
+  font-size: 24px;
+  line-height: 24px;
+  margin: 0;
+}
+
+.agenda {
+  ul {
+    list-style-type: none;
     margin: 0;
-    color: rgba(0, 0, 0, .26);
-  }
+    padding: 20px 0 0 0;
+    font-size: 16px;
 
-  .title {
-    font-size: 24px;
-    line-height: 24px;
-    margin: 0;
-  }
+    li {
+      border-bottom: 1px solid #dcdcdc;
+      padding: 8px 0;
 
-  .agenda {
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 20px 0 0 0;
-      font-size: 16px;
-
-      li {
-        border-bottom: 1px solid #dcdcdc;
-        padding: 8px 0;
-
-        &:last-child {
-          border-bottom: none;
-        }
+      &:last-child {
+        border-bottom: none;
       }
     }
   }
-
+}
 </style>

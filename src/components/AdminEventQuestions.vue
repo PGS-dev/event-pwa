@@ -139,8 +139,12 @@ export default {
             axios.get('/notification', {
               params: {
                 to: winner.fcmToken,
-                content: Buffer.from(`Gratulacje! Twoją wygraną jest: ${question.reward}`).toString('base64'),
-                action: `${window.location.origin}/event/${event.seoSlug}/konkurs`,
+                content: Buffer.from(
+                  `Gratulacje! Twoją wygraną jest: ${question.reward}`,
+                ).toString('base64'),
+                action: `${window.location.origin}/event/${
+                  event.seoSlug
+                }/konkurs`,
               },
             });
           }
@@ -159,7 +163,9 @@ export default {
         axios.get('/notification', {
           params: {
             to: `/topics/${event.seoSlug}`,
-            content: Buffer.from('Uwaga! Pytanie jest aktywne!').toString('base64'),
+            content: Buffer.from('Uwaga! Pytanie jest aktywne!').toString(
+              'base64',
+            ),
             action: `${window.location.origin}/event/${event.seoSlug}/konkurs`,
           },
         });
@@ -172,7 +178,6 @@ export default {
     },
   },
 };
-
 </script>
 
 <style scoped lang="scss">

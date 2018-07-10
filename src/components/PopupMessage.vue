@@ -34,14 +34,17 @@ export default {
   },
   methods: {
     insertWithTimeout(array, element) {
-      const index = `id-${(new Date()).getTime()}`;
+      const index = `id-${new Date().getTime()}`;
       array.push({
         id: index,
         text: element,
       });
 
       setTimeout(() => {
-        const foundIndex = findIndex(this.messagesToShow, item => item.id === index);
+        const foundIndex = findIndex(
+          this.messagesToShow,
+          item => item.id === index,
+        );
         this.messagesToShow.splice(foundIndex, 1);
       }, snackbarTimeout);
     },

@@ -25,9 +25,11 @@ export default {
   },
   computed: {
     ...mapState({
-      activeQuestion: (state) => {
+      activeQuestion: state => {
         // convert to array
-        const selectedEventQuestions = state.events.selectedEvent ? map(state.events.selectedEvent.questions, v => v) : [];
+        const selectedEventQuestions = state.events.selectedEvent
+          ? map(state.events.selectedEvent.questions, v => v)
+          : [];
         return find(selectedEventQuestions, 'active');
       },
       event: state => state.events.selectedEvent,
@@ -45,20 +47,22 @@ export default {
       };
 
       if (!this.alreadySubmitted) {
-        this.$store.dispatch(eventAction.SAVE_PARTICIPANT, data)
+        this.$store
+          .dispatch(eventAction.SAVE_PARTICIPANT, data)
           .then(() => {
             this.alreadySubmitted = true;
             this.successMessage = 'Dziękujemy za udział w konkursie!';
 
             this.savedSubmissions.push(data);
-          }).catch((error) => {
+          })
+          .catch(error => {
             this.errorMessage = error.code;
           });
       }
     },
     checkSubmission() {
       this.form.answer = '';
-      lf.getItem('submissions').then((values) => {
+      lf.getItem('submissions').then(values => {
         this.savedSubmissions = values || [];
       });
     },
@@ -78,13 +82,20 @@ export default {
   watch: {
     activeQuestion(newActiveQuestion) {
       const self = this;
-      lf.getItem('submissions').then((values) => {
+      lf.getItem('submissions').then(values => {
         self.savedSubmissions = values || [];
-        self.activeQuestionSubmission = newActiveQuestion ? find(
-          self.savedSubmissions,
-          s => s.eventKey === self.event.id && s.questionId === newActiveQuestion.id,
-        ) : null;
-        self.activeQuestionSubmissionKey = get(self.activeQuestionSubmission, 'id');
+        self.activeQuestionSubmission = newActiveQuestion
+          ? find(
+              self.savedSubmissions,
+              s =>
+                s.eventKey === self.event.id &&
+                s.questionId === newActiveQuestion.id,
+            )
+          : null;
+        self.activeQuestionSubmissionKey = get(
+          self.activeQuestionSubmission,
+          'id',
+        );
         self.alreadySubmitted = !!self.activeQuestionSubmission;
 
         if (self.alreadySubmitted) {
@@ -102,6 +113,8 @@ export default {
     if (this.token && typeof this.token === 'string') {
       this.assignTopic(this.token);
     }
-    this.$store.dispatch(eventAction.GET_EVENT_DETAILS).then(() => this.checkSubmission());
+    this.$store
+      .dispatch(eventAction.GET_EVENT_DETAILS)
+      .then(() => this.checkSubmission());
   },
 };

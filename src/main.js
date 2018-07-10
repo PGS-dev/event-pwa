@@ -13,11 +13,12 @@ import './registerServiceWorker';
 sync(store, router);
 
 if (navigator.serviceWorker) {
-  navigator.serviceWorker.ready.then((reg) => {
+  navigator.serviceWorker.ready.then(reg => {
     messaging.useServiceWorker(reg);
-    messaging.requestPermission()
+    messaging
+      .requestPermission()
       .then(() => messaging.getToken())
-      .then((token) => {
+      .then(token => {
         store.dispatch(userAction.TOKEN_RECEIVED, token);
       })
       .catch(() => {

@@ -61,5 +61,7 @@
   </div>
 </template>
 
-<script src="./EventQuiz.js"></script>
-<style scoped lang="scss" src="./EventQuiz.scss"></style>
+<script src="./EventQuiz.js">
+</script>
+<style scoped lang="scss" src="./EventQuiz.scss">
+</style>
