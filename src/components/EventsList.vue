@@ -10,7 +10,7 @@
         </div>
         <div class="mdl-card__actions mdl-card--border">
           <router-link :to="{ name: 'quiz', params: { seoSlug: event.seoSlug }}" v-if="event.open && event.questions"
-                       class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect">
+                       class="mdl-button mdl-button--colored mdl-button--raised mdl-js-button mdl-js-ripple-effect button-konkurs">
             Konkurs
           </router-link>
           <router-link :to="{ name: 'agenda', params: { seoSlug: event.seoSlug }}" v-if="event.agenda"
@@ -80,6 +80,10 @@ export default{
 
   .card > .mdl-card__menu {
     color: #fff;
+  }
+
+  .card .button-konkurs {
+    margin-right: 5px;
   }
 
   .info {
