@@ -7,9 +7,8 @@
 }
 
 .logo {
-  background-size: 100px;
-  background: url("assets/logo.png") no-repeat;
-  background-position-y: center;
+  background: url("assets/logo.svg") no-repeat;
+  background-size: contain;
   display: inline-block;
   width: 100px;
   height: 50px;
