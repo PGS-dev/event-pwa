@@ -1,15 +1,14 @@
 import Vue from 'vue';
 import VueFire from 'vuefire';
+import { sync } from 'vuex-router-sync';
 import VueMdl from 'vue-mdl';
+import 'material-design-lite/material.min';
 import App from './App.vue';
 import router from './router';
 import store from './store/index';
 import { messaging } from './firebase';
 import { actionTypes as userAction } from './store/modules/user';
 import './registerServiceWorker';
-import { sync } from 'vuex-router-sync';
-
-import 'material-design-lite/material.min';
 
 sync(store, router);
 
