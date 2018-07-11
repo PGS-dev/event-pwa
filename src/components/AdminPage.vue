@@ -115,15 +115,19 @@ export default {
       return filter(this.participants, { eventKey: key }).length;
     },
     getDateString(timestamp) {
-      return new Date(timestamp).toLocaleString('en-GB', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        hour12: false,
-      });
+      if (timestamp) {
+        return new Date(timestamp).toLocaleString('en-GB', {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric',
+          hour12: false,
+        });
+      }
+
+      return 'old';
     },
     openModal(modal, title, id, seoSlug) {
       this[modal] = true;
