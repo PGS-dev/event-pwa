@@ -6,6 +6,7 @@
           <tr>
             <th>Tytuł</th>
             <th>Uczestnicy</th>
+            <th>Utworzono</th>
             <th>Akcje</th>
           </tr>
         </thead>
@@ -13,6 +14,7 @@
           <tr v-for="event in events" :key="event.title">
             <td>{{ event.title }}</td>
             <td>{{ getParticipantsNumber(event.id) }}</td>
+            <td>{{ getDateString(event.createdAt) }}</td>
             <td>
               <div class="buttons-container">
                 <router-link
@@ -112,6 +114,17 @@ export default {
     getParticipantsNumber(key) {
       return filter(this.participants, { eventKey: key }).length;
     },
+    getDateString(timestamp) {
+      return new Date(timestamp).toLocaleString('en-GB', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: false,
+      });
+    },
     openModal(modal, title, id, seoSlug) {
       this[modal] = true;
       this.selectedEvent.title = title;
@@ -149,7 +162,8 @@ $tablet: 767px;
 $mobile: 414px;
 
 .table-container {
-  max-width: 800px;
+  max-width: 100%;
+  width: 1100px;
   margin: 0 auto 15px auto;
 }
 
@@ -168,7 +182,9 @@ $mobile: 414px;
   }
 
   td:nth-of-type(2),
-  th:nth-of-type(2) {
+  th:nth-of-type(2),
+  td:nth-of-type(3),
+  th:nth-of-type(3) {
     text-align: center;
     padding-left: 0;
     padding-right: 0;

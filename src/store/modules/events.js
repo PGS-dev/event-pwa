@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign,no-shadow */
 import filter from 'lodash/filter';
+import firebase from 'firebase';
 import { db } from '../../firebase';
 import lf from '../../localforage';
 
@@ -46,10 +47,10 @@ const actions = {
   },
 
   [actionTypes.LOAD_EVENTS](context) {
-    const eventsRef = db.ref('events');
+    const eventsRef = db.ref('events').orderByChild('createdAt');
     if (navigator.onLine) {
       eventsRef.on('value', snapshot => {
-        const events = filter(snapshot.val(), e => e);
+        const events = filter(snapshot.val(), e => e).reverse();
         context.commit(mutationTypes.LOAD_EVENTS_SUCCESS, { events });
         lf.setItem('events', events);
       });
@@ -92,8 +93,13 @@ const actions = {
 
   [actionTypes.SAVE_EVENT](context, payload) {
     const newEventRef = db.ref('events').push();
+    const payloadWithTime = {
+      ...payload,
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+      updatedAt: firebase.database.ServerValue.TIMESTAMP,
+    };
     return newEventRef
-      .set({ ...payload, id: newEventRef.key })
+      .set({ ...payloadWithTime, id: newEventRef.key })
       .then(() => {
         context.commit(
           mutationTypes.SHOW_POPUP_MESSAGE,
@@ -132,8 +138,12 @@ const actions = {
 
   [actionTypes.EDIT_EVENT](context, payload) {
     const updatedRef = db.ref(`events/${context.state.selectedEvent.id}`);
+    const payloadWithTime = {
+      ...payload,
+      updatedAt: firebase.database.ServerValue.TIMESTAMP,
+    };
     return updatedRef
-      .update(payload)
+      .update(payloadWithTime)
       .then(() => {
         context.commit(
           mutationTypes.SHOW_POPUP_MESSAGE,
