@@ -16,6 +16,7 @@ export default {
       successMessage: null,
       formSent: false,
       alreadySubmitted: null,
+      activeQuestionSubmission: null,
       activeQuestionSubmissionKey: null,
       savedSubmissions: [],
       form: {
