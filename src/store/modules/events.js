@@ -19,6 +19,8 @@ export const actionTypes = {
   UPDATE_QUESTION_WINNER: 'events/UPDATE_QUESTION_WINNER',
   SHOW_POPUP_MESSAGE: 'events/SHOW_POPUP_MESSAGE',
   CLEAR_POPUP_MESSAGE: 'events/CLEAR_POPUP_MESSAGE',
+  USER_ENTER_AGENDA: 'events/USER_ENTER_AGENDA',
+  USER_LEAVE_AGENDA: 'events/USER_LEAVE_AGENDA',
 };
 
 const mutationTypes = {
@@ -281,6 +283,22 @@ const actions = {
 
   [actionTypes.CLEAR_POPUP_MESSAGE](context) {
     context.commit(mutationTypes.CLEAR_POPUP_MESSAGE);
+  },
+
+  [actionTypes.USER_ENTER_AGENDA](context) {
+    return db
+      .ref(`events/${context.state.selectedEvent.id}/agendaUsersCount`)
+      .transaction(function(current_value) {
+        return (current_value || 0) + 1;
+      });
+  },
+
+  [actionTypes.USER_LEAVE_AGENDA](context) {
+    return db
+      .ref(`events/${context.state.selectedEvent.id}/agendaUsersCount`)
+      .transaction(function(current_value) {
+        return current_value <= 0 ? 0 : current_value - 1;
+      });
   },
 };
 

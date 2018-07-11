@@ -25,6 +25,7 @@
 
 <script>
 import PopupMessage from './components/PopupMessage';
+import firebase from './firebase';
 import { messaging } from './firebase';
 import { actionTypes as eventAction } from './store/modules/events';
 
@@ -59,6 +60,10 @@ export default {
     );
   },
   created() {
+    firebase
+      .auth()
+      .signInAnonymously()
+      .catch(err => console.error(err));
     messaging.onMessage(payload => {
       this.$store.dispatch(eventAction.SHOW_POPUP_MESSAGE, {
         message: payload.notification.body,
