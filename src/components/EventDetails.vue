@@ -23,11 +23,13 @@ export default {
     token: state => state.user.token,
     assignedTopics: state => state.user.assignedTopics,
     compiledMarkdown: state =>
-      marked(state.events.selectedEvent.agenda, {
-        gfm: true,
-        tables: true,
-        breaks: true,
-      }),
+      state.events.selectedEvent.agenda
+        ? marked(state.events.selectedEvent.agenda, {
+            gfm: true,
+            tables: true,
+            breaks: true,
+          })
+        : '',
   }),
   methods: {
     assignTopic(token) {
