@@ -36,6 +36,25 @@ npm test
 - Copy messagingSenderId to firebase service worker (public/firebaseServiceWorker.js)
 - Copy Cloud Messaging Server Key (Project settings > Cloud Messaging tab) to Cloud functions Authorization headers
 - Import database backup file (JSON) to Realtime Database
+- Create admin account (Authentication tab)
+- Add database rules:
+
+```
+{
+  "rules": {
+	"participants": {
+      ".read": "true",
+      ".write": "true"
+    },
+    "events": {
+      ".read": "true",
+      ".write": "auth.uid === 'YOUR_ADMIN_AUTH_ID' || auth.uid === 'YOUR_ANOTHER_ADMIN_AUTH_ID'",
+      ".indexOn": "seoSlug"
+    }
+  }
+}
+```
+
 - Change Firebase active project:
 
 ```bash
