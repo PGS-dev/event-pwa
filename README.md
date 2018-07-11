@@ -1,31 +1,69 @@
-# event-pwa
+# PGS Events
 
 > A Progressive Web App based on Vue.js & Firebase
 
-## Build Setup
-
-Make sure you have npm >= 5 installed. To check do:
+## Installation
 
 ```
-npm -v
-```
-
-Installation
-``` bash
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
-npm start
+# install Firebase tools
+npm install -g firebase-tools
+```
 
-# serve without hot reload but with working Service Worker at localhost:8080
-npm run start-sw
+---
 
-# build for production with minification
+## Build Setup
+
+```bash
+# serve with hot reload
+npm run serve
+
+# build for production
 npm run build
 
 # run unit tests
 npm test
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+---
+
+## Moving to another account
+
+- Create new Firebase project
+- Copy firebase config to src/firebase.js
+- Copy messagingSenderId to firebase service worker (public/firebaseServiceWorker.js)
+- Copy Cloud Messaging Server Key (Project settings > Cloud Messaging tab) to Cloud functions Authorization headers
+- Import database backup file (JSON) to Realtime Database
+- Change Firebase active project:
+
+```bash
+# Print a list of all of your Firebase projects.
+firebase list
+
+# Set active Firebase project, manage project aliases.
+firebase use YOUR_PROJECT_ID
+```
+
+---
+
+## Deployment
+
+```bash
+# login (first time only)
+firebase login
+
+# deploy everything
+firebase deploy
+
+#deploy all functions
+firebase deploy --only functions
+
+#deploy one function
+firebase deploy --only functions:funcName
+```
+
+---
+
+For detailed explanation on how things work, checkout [docs for vue-cli](https://cli.vuejs.org/).
