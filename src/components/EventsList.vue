@@ -22,7 +22,6 @@
     </template>
     <template v-if="eventsFetched && activeEventsCount === 0">
       <div class="info">
-        <i class="material-icons">info</i>
         <p>Już wkrótce kolejne wydarzenia. Zapraszamy później!</p>
       </div>
     </template>

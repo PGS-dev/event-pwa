@@ -51,7 +51,8 @@ export default {
           .dispatch(eventAction.SAVE_PARTICIPANT, data)
           .then(() => {
             this.alreadySubmitted = true;
-            this.successMessage = 'Dziękujemy za udział w konkursie!';
+            this.successMessage =
+              'Dziękujemy za udział w konkursie! Obserwuj naszą aplikację – losowanie już wkrótce.';
 
             this.savedSubmissions.push(data);
           })

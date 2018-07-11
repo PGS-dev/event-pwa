@@ -54,7 +54,6 @@
 
     <template v-if="!activeQuestion || (activeQuestion.winner && !activeQuestionSubmissionKey)">
       <div class="info">
-        <i class="material-icons">info</i>
         <p>Wkrótce pojawi się tutaj pytanie konkursowe!</p>
       </div>
     </template>
