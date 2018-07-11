@@ -36,12 +36,15 @@
       </div>
     </template>
 
-    <template v-if="activeQuestion && !activeQuestion.drawing && activeQuestionSubmissionKey && activeQuestion.winner && activeQuestion.winner !== activeQuestionSubmissionKey">
-      <div class="info">
+    <template v-if="activeQuestion && !activeQuestion.drawing && activeQuestionSubmissionKey && activeQuestionSubmission && activeQuestion.winner && activeQuestion.winner !== activeQuestionSubmissionKey">
+      <div class="info" v-if="activeQuestion.correctAnswer === activeQuestionSubmission.answer">
         <p>Byłeś blisko, ale tym razem się nie udało. Dziękujemy za udział w konkursie!</p>
       </div>
+      <div class="info" v-else>
+        <p>Niestety Twoja odpowiedź nie była prawidłowa. Dziękujemy za udział w konkursie!</p>
+      </div>
     </template>
-
+  
     <template v-if="activeQuestion && !activeQuestion.drawing && activeQuestionSubmissionKey && activeQuestion.winner === activeQuestionSubmissionKey">
       <div class="info">
         <i class="win-icon material-icons">grade</i>
