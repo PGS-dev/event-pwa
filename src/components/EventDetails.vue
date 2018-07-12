@@ -53,19 +53,12 @@ export default {
     if (this.token && typeof this.token === 'string') {
       this.assignTopic(this.token);
     }
-    firebase.auth().onAuthStateChanged(user => {
-      if (user && user.isAnonymous) {
-        this.$store.dispatch(eventAction.USER_ENTER_AGENDA);
-      }
-    });
+
+    this.$store.dispatch(eventAction.USER_ENTER_AGENDA);
     this.$store.dispatch(eventAction.GET_EVENT_DETAILS);
   },
   beforeDestroy() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user && user.isAnonymous) {
-        this.$store.dispatch(eventAction.USER_LEAVE_AGENDA);
-      }
-    });
+    this.$store.dispatch(eventAction.USER_LEAVE_AGENDA);
   },
 };
 </script>
