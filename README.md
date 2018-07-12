@@ -49,7 +49,15 @@ npm test
     "events": {
       ".read": "true",
       ".write": "auth.uid === 'YOUR_ADMIN_AUTH_ID' || auth.uid === 'YOUR_ANOTHER_ADMIN_AUTH_ID'",
-      ".indexOn": "seoSlug"
+      ".indexOn": "seoSlug",
+      "$event": {
+        "quizUsers": {
+          ".write": "true"
+        },
+        "agendaUsers": {
+          ".write": "true"
+        },
+      }
     }
   }
 }
