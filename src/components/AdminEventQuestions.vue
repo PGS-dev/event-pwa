@@ -1,5 +1,8 @@
 <template>
   <div>
+    <admin-breadcrumbs>
+      <h3><router-link to="/admin" replace>Admin page</router-link> > Questions</h3>
+    </admin-breadcrumbs>
     <div class="card mdl-card mdl-shadow--2dp">
       <div class="mdl-card__title">
         <h2 class="mdl-card__title-text">{{ event.title }}</h2>
@@ -82,11 +85,13 @@ import axios from 'axios';
 import { Buffer } from 'buffer';
 import { actionTypes as eventAction } from '../store/modules/events';
 import DeleteModal from './DeleteModal';
+import AdminBreadcrumbs from './AdminBreadcrumbs';
 
 export default {
   name: 'AdminEventQuestions',
   components: {
     DeleteModal,
+    AdminBreadcrumbs,
   },
   data() {
     return {
