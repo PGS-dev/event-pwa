@@ -1,63 +1,73 @@
 <template>
   <div>
-    <div class="table-container">
-      <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-        <thead>
+    <admin-breadcrumbs>
+      <h3>Admin page</h3>
+    </admin-breadcrumbs>
+    <div class="r-container table-container mdl-shadow--2dp">
+      <div class="table-responsive">
+        <table class="mdl-data-table mdl-js-data-table">
+          <thead>
+            <tr>
+              <th>Tytuł</th>
+              <th>Uczestnicy<br>konkursu</th>
+              <th>Na stronie<br>agenda</th>
+              <th>Na stronie<br>konkurs</th>
+              <th>Utworzono</th>
+              <th>Akcje</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="event in events" :key="event.title">
+              <td>{{ event.title }}</td>
+              <td>{{ getParticipantsNumber(event.id) }}</td>
+              <td>{{ getAgendaUsersCount(event) }}</td>
+              <td>{{ getQuizUsersCount(event) }}</td>
+              <td>{{ getDateString(event.createdAt) }}</td>
+              <td>
+                <div class="buttons-container">
+                  <router-link
+                    class="mdl-button mdl-js-button mdl-button--raised"
+                    :to="{ name: 'adminEditEvent', params: { seoSlug: event.seoSlug }}"
+                  >
+                    Edytuj
+                  </router-link>
+                  <router-link
+                    class="mdl-button mdl-js-button mdl-button--raised"
+                    :to="{ name: 'adminQuestions', params: { seoSlug: event.seoSlug }}"
+                  >
+                    Konkurs
+                  </router-link>
+                  <button
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                    @click="openModal('notifyModal', event.title, event.id, event.seoSlug)"
+                  >
+                    <i class="material-icons">notifications</i>
+                  </button>
+                  <button
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                    @click="openModal('deleteModal', event.title, event.id, event.seoSlug)"
+                  >
+                    <i class="material-icons">delete</i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
           <tr>
-            <th>Tytuł</th>
-            <th>Uczestnicy</th>
-            <th>Utworzono</th>
-            <th>Akcje</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="event in events" :key="event.title">
-            <td>{{ event.title }}</td>
-            <td>{{ getParticipantsNumber(event.id) }}</td>
-            <td>{{ getDateString(event.createdAt) }}</td>
-            <td>
-              <div class="buttons-container">
-                <router-link
-                  class="mdl-button mdl-js-button mdl-button--raised"
-                  :to="{ name: 'adminEditEvent', params: { seoSlug: event.seoSlug }}"
-                >
-                  Edytuj
-                </router-link>
-                <router-link
-                  class="mdl-button mdl-js-button mdl-button--raised"
-                  :to="{ name: 'adminQuestions', params: { seoSlug: event.seoSlug }}"
-                >
-                  Konkurs
-                </router-link>
-                <button
-                  class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
-                  @click="openModal('notifyModal', event.title, event.id, event.seoSlug)"
-                >
-                  <i class="material-icons">notifications</i>
-                </button>
-                <button
-                  class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
-                  @click="openModal('deleteModal', event.title, event.id, event.seoSlug)"
-                >
-                  <i class="material-icons">delete</i>
-                </button>
-              </div>
+            <td colspan="3">
+              <router-link
+                class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                :to="{ name: 'adminAddEvent'}"
+              >
+                Dodaj wydarzenie
+              </router-link>
             </td>
           </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-          <td colspan="3">
-            <router-link
-              class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-              :to="{ name: 'adminAddEvent'}"
-            >
-              Dodaj wydarzenie
-            </router-link>
-          </td>
-        </tr>
-        </tfoot>
-      </table>
+          </tfoot>
+        </table>
+      </div>
+      
     </div>
     <delete-modal
       v-if="deleteModal"
@@ -78,6 +88,7 @@
 
 <script>
 import filter from 'lodash/filter';
+import size from 'lodash/size';
 import { mapState } from 'vuex';
 import axios from 'axios';
 import { Buffer } from 'buffer';
@@ -85,12 +96,14 @@ import { Buffer } from 'buffer';
 import { actionTypes as eventAction } from '../store/modules/events';
 import DeleteModal from './DeleteModal';
 import NotifyModal from './NotifyModal';
+import AdminBreadcrumbs from './AdminBreadcrumbs';
 
 export default {
   name: 'AdminPage',
   components: {
     DeleteModal,
     NotifyModal,
+    AdminBreadcrumbs,
   },
   data() {
     return {
@@ -113,6 +126,18 @@ export default {
   methods: {
     getParticipantsNumber(key) {
       return filter(this.participants, { eventKey: key }).length;
+    },
+    getAgendaUsersCount(event) {
+      if (event.agendaUsers) {
+        return size(event.agendaUsers);
+      }
+      return 0;
+    },
+    getQuizUsersCount(event) {
+      if (event.quizUsers) {
+        return size(event.quizUsers);
+      }
+      return 0;
     },
     getDateString(timestamp) {
       if (timestamp) {
@@ -162,12 +187,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$tablet: 767px;
-$mobile: 414px;
+$tablet: 768px;
+$mobile: 600px;
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
 
 .table-container {
-  max-width: 100%;
-  width: 1100px;
   margin: 0 auto 15px auto;
 }
 
@@ -180,6 +208,14 @@ $mobile: 414px;
     white-space: normal;
   }
 
+  th {
+    line-height: 18px;
+    height: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    vertical-align: middle;
+  }
+
   td:nth-of-type(1),
   th:nth-of-type(1) {
     text-align: left;
@@ -188,13 +224,20 @@ $mobile: 414px;
   td:nth-of-type(2),
   th:nth-of-type(2),
   td:nth-of-type(3),
-  th:nth-of-type(3) {
+  th:nth-of-type(3),
+  td:nth-of-type(4),
+  th:nth-of-type(4),
+  td:nth-of-type(5),
+  th:nth-of-type(5) {
     text-align: center;
-    padding-left: 0;
-    padding-right: 0;
   }
 
   @media (max-width: $mobile) {
+    td,
+    th {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
     td:last-of-type,
     th:last-of-type {
       padding-right: 12px;
@@ -208,20 +251,20 @@ $mobile: 414px;
 }
 
 .mdl-button {
-  margin: 2px;
+  margin: 0 2px;
 
   @media (max-width: $tablet) {
-    padding-left: 5px;
-    padding-right: 5px;
+    height: 30px;
+    line-height: 30px;
+    min-width: 35px;
+    font-size: 12px;
+    padding-left: 8px;
+    padding-right: 8px;
   }
 }
 
 .buttons-container {
   display: flex;
   justify-content: flex-end;
-
-  @media (max-width: $tablet) {
-    flex-direction: column;
-  }
 }
 </style>

@@ -12,6 +12,7 @@
 import { mapState } from 'vuex';
 import marked from 'marked';
 import axios from 'axios';
+import firebase from '../firebase';
 
 import { actionTypes as eventAction } from '../store/modules/events';
 import { actionTypes as userActions } from '../store/modules/user';
@@ -54,7 +55,12 @@ export default {
     if (this.token && typeof this.token === 'string') {
       this.assignTopic(this.token);
     }
+
+    this.$store.dispatch(eventAction.USER_ENTER_AGENDA);
     this.$store.dispatch(eventAction.GET_EVENT_DETAILS);
+  },
+  beforeDestroy() {
+    this.$store.dispatch(eventAction.USER_LEAVE_AGENDA);
   },
 };
 </script>

@@ -118,5 +118,10 @@ export default {
     this.$store
       .dispatch(eventAction.GET_EVENT_DETAILS)
       .then(() => this.checkSubmission());
+
+    this.$store.dispatch(eventAction.USER_ENTER_QUIZ);
+  },
+  beforeDestroy() {
+    this.$store.dispatch(eventAction.USER_LEAVE_QUIZ);
   },
 };

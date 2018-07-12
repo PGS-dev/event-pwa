@@ -19,6 +19,10 @@ export const actionTypes = {
   UPDATE_QUESTION_WINNER: 'events/UPDATE_QUESTION_WINNER',
   SHOW_POPUP_MESSAGE: 'events/SHOW_POPUP_MESSAGE',
   CLEAR_POPUP_MESSAGE: 'events/CLEAR_POPUP_MESSAGE',
+  USER_ENTER_AGENDA: 'events/USER_ENTER_AGENDA',
+  USER_LEAVE_AGENDA: 'events/USER_LEAVE_AGENDA',
+  USER_ENTER_QUIZ: 'events/USER_ENTER_QUIZ',
+  USER_LEAVE_QUIZ: 'events/USER_LEAVE_QUIZ',
 };
 
 const mutationTypes = {
@@ -281,6 +285,70 @@ const actions = {
 
   [actionTypes.CLEAR_POPUP_MESSAGE](context) {
     context.commit(mutationTypes.CLEAR_POPUP_MESSAGE);
+  },
+
+  [actionTypes.USER_ENTER_AGENDA](context) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user && user.isAnonymous && user.uid) {
+        const seoSlug = context.rootState.route.params.seoSlug;
+        const eventRef = db
+          .ref('events')
+          .orderByChild('seoSlug')
+          .equalTo(seoSlug);
+        eventRef.once('value', snapshot => {
+          const event = filter(snapshot.val(), e => e)[0];
+          const eventId = event.id;
+          const agendaUsersRef = db.ref(
+            `events/${eventId}/agendaUsers/${user.uid}`,
+          );
+          agendaUsersRef.set(true);
+          agendaUsersRef.onDisconnect().remove();
+        });
+      }
+    });
+  },
+
+  [actionTypes.USER_LEAVE_AGENDA](context) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user && user.isAnonymous && user.uid) {
+        const agendaUsersRef = db.ref(
+          `events/${context.state.selectedEvent.id}/agendaUsers/${user.uid}`,
+        );
+        agendaUsersRef.remove();
+      }
+    });
+  },
+
+  [actionTypes.USER_ENTER_QUIZ](context) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user && user.isAnonymous && user.uid) {
+        const seoSlug = context.rootState.route.params.seoSlug;
+        const eventRef = db
+          .ref('events')
+          .orderByChild('seoSlug')
+          .equalTo(seoSlug);
+        eventRef.once('value', snapshot => {
+          const event = filter(snapshot.val(), e => e)[0];
+          const eventId = event.id;
+          const quizUsersRef = db.ref(
+            `events/${eventId}/quizUsers/${user.uid}`,
+          );
+          quizUsersRef.set(true);
+          quizUsersRef.onDisconnect().remove();
+        });
+      }
+    });
+  },
+
+  [actionTypes.USER_LEAVE_QUIZ](context) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user && user.isAnonymous && user.uid) {
+        const quizUsersRef = db.ref(
+          `events/${context.state.selectedEvent.id}/quizUsers/${user.uid}`,
+        );
+        quizUsersRef.remove();
+      }
+    });
   },
 };
 
