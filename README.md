@@ -85,7 +85,10 @@ firebase login
 # deploy everything
 firebase deploy
 
-#deploy all functions
+#deploy only site files
+firebase deploy --only hosting
+
+#deploy only functions
 firebase deploy --only functions
 
 #deploy one function
