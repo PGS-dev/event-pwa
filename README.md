@@ -36,6 +36,7 @@ npm test
 - Copy messagingSenderId to firebase service worker (public/firebaseServiceWorker.js)
 - Copy Cloud Messaging Server Key (Project settings > Cloud Messaging tab) to Cloud functions Authorization headers
 - Import database backup file (JSON) to Realtime Database
+- Enable auth by email and password and anonymous auth methods
 - Create admin account (Authentication tab)
 - Add database rules:
 
