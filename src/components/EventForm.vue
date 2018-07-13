@@ -1,21 +1,23 @@
 <template>
-  <form class="input-container mdl-shadow--3dp" v-on:submit.prevent="onSubmit">
-    <mdl-textfield floating-label="Tytuł" v-model="event.title" required></mdl-textfield>
-    <mdl-textfield floating-label="Opis" v-model="event.desc"></mdl-textfield>
-    <mdl-textfield floating-label="Adres obrazka" v-model="event.imageUrl" required></mdl-textfield>
-    <mdl-textfield floating-label="SEO Slug" v-model="event.seoSlug" required></mdl-textfield>
-    <mdl-textfield floating-label="Agenda" textarea rows="8" v-model="event.agenda"></mdl-textfield>
-    <div @click="showPreview" class="agenda-preview">
-      <p class="agenda-preview-title">Podgląd agendy</p>
-      <i v-bind:class="{ 'is-rotated': showAgenda }" class="material-icons">chevron_right</i>
-    </div>
-    <div class="agenda" v-if="showAgenda" v-html="compiledMarkdown"></div>
-    <mdl-checkbox v-model="event.active">Wydarzenie aktywne</mdl-checkbox>
-    <mdl-checkbox v-model="event.open">Konkurs aktywny</mdl-checkbox>
-    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-      Zapisz
-    </button>
-  </form>
+  <div class="r-container">
+    <form class="input-container mdl-shadow--3dp" v-on:submit.prevent="onSubmit">
+      <mdl-textfield floating-label="Tytuł" v-model="event.title" required></mdl-textfield>
+      <mdl-textfield floating-label="Opis" v-model="event.desc"></mdl-textfield>
+      <mdl-textfield floating-label="Adres obrazka" v-model="event.imageUrl" required></mdl-textfield>
+      <mdl-textfield floating-label="SEO Slug" v-model="event.seoSlug" required></mdl-textfield>
+      <mdl-textfield floating-label="Agenda" textarea rows="8" v-model="event.agenda"></mdl-textfield>
+      <div @click="showPreview" class="agenda-preview">
+        <p class="agenda-preview-title">Podgląd agendy</p>
+        <i v-bind:class="{ 'is-rotated': showAgenda }" class="material-icons">chevron_right</i>
+      </div>
+      <div class="agenda" v-if="showAgenda" v-html="compiledMarkdown"></div>
+      <mdl-checkbox v-model="event.active">Wydarzenie aktywne</mdl-checkbox>
+      <mdl-checkbox v-model="event.open">Konkurs aktywny</mdl-checkbox>
+      <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+        Zapisz
+      </button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -73,13 +75,10 @@ export default {
 
 <style scoped lang="scss">
 .input-container {
-  padding: 10px;
-  background: #f9f9f9;
-  max-width: 800px;
-  margin: 0 auto 0 auto;
+  padding: 16px;
 
   .mdl-textfield {
-    width: 800px;
+    width: 100%;
     display: inline-block;
   }
 
