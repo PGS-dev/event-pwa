@@ -1,7 +1,7 @@
 <template>
   <div class="snackbars-container">
     <!--<transition-group name="list" tag="p">-->
-    <div v-for="item in messagesToShow" class="list-item">
+    <div v-for="(item, index) in messagesToShow" class="list-item" :key="index">
       <div class="snackbar">
         <div class="text">{{ item.text }}</div>
         <div class="btn" @click="removeSnackbar(item.id)">Zamknij</div>

@@ -37,9 +37,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .card-form {
-    max-width: 100%;
-    margin: 20px auto;
-    padding: 20px;
-  }
+.card-form {
+  max-width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+}
 </style>

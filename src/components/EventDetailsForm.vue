@@ -7,19 +7,19 @@
     <div class="success" v-if="successMessage">{{successMessage}}</div>
     <div class="error" v-if="errorMessage">{{errorMessage}}</div>
     <form v-on:submit.prevent="onSubmit" v-if="!formSent">
-      <template v-for="field in sorted(event.fields)">
+      <template v-for="(field, fieldIndex) in sorted(event.fields)">
         <template v-if="field.type === 'text'">
-          <mdl-textfield :floating-label="field.label" v-model="form[field.name]" :required="field.required"></mdl-textfield>
+          <mdl-textfield :floating-label="field.label" v-model="form[field.name]" :required="field.required" :key="fieldIndex"></mdl-textfield>
         </template>
         <template v-if="field.type === 'email'">
-          <mdl-textfield :floating-label="field.label" v-model="form[field.name]" type="email" :required="field.required"></mdl-textfield>
+          <mdl-textfield :floating-label="field.label" v-model="form[field.name]" type="email" :required="field.required" :key="fieldIndex"></mdl-textfield>
         </template>
         <template v-if="field.type === 'checkbox' && !field.values">
-          <mdl-checkbox v-model="form[field.name]" :value="false">{{field.label}}</mdl-checkbox>
+          <mdl-checkbox v-model="form[field.name]" :value="false" :key="fieldIndex">{{field.label}}</mdl-checkbox>
         </template>
-        <div class="multichoice" v-if="field.type === 'checkbox' && field.values">
+        <div class="multichoice" v-if="field.type === 'checkbox' && field.values" :key="fieldIndex">
           <label>{{field.label}}</label>
-          <mdl-checkbox v-for="(val, n) in toArray(field.values)" :val="val" :id="indexId(n)" type="checkbox" v-model="form[field.name]">{{val}}</mdl-checkbox>
+          <mdl-checkbox v-for="(val, n) in toArray(field.values)" :val="val" :id="indexId(n)" type="checkbox" v-model="form[field.name]"  :key="n">{{val}}</mdl-checkbox>
         </div>
       </template>
       <mdl-button class="mdl-js-ripple-effect submit-btn" colored raised>Zapisz się</mdl-button>

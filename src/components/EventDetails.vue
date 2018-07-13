@@ -12,7 +12,6 @@
 import { mapState } from 'vuex';
 import marked from 'marked';
 import axios from 'axios';
-import firebase from '../firebase';
 
 import { actionTypes as eventAction } from '../store/modules/events';
 import { actionTypes as userActions } from '../store/modules/user';

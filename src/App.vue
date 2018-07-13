@@ -60,10 +60,8 @@ export default {
     );
   },
   created() {
-    firebase
-      .auth()
-      .signInAnonymously()
-      .catch(err => console.error(err));
+    firebase.auth().signInAnonymously();
+
     messaging.onMessage(payload => {
       this.$store.dispatch(eventAction.SHOW_POPUP_MESSAGE, {
         message: payload.notification.body,
