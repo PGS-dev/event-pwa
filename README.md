@@ -23,8 +23,14 @@ npm run serve
 # build for production
 npm run build
 
+# run linting, fix errors and format code
+npm run lint
+
 # run unit tests
 npm test
+
+# test cloud functions on Local Machine
+firebase serve --only functions
 ```
 
 ---
@@ -34,16 +40,31 @@ npm test
 - Create new Firebase project
 - Copy firebase config to src/firebase.js
 - Copy messagingSenderId to firebase service worker (public/firebaseServiceWorker.js)
-- Copy Cloud Messaging Server Key (Project settings > Cloud Messaging tab) to Cloud functions Authorization headers
+- Copy Cloud Messaging Server Key (Project settings > Cloud Messaging tab) to Cloud functions Authorization headers (functions/index.js):
+
+```javascript
+exports.someCloudMessagingMethod = functions.https.onRequest((req, res) => {
+  axios({
+    ...
+    headers: {
+      Authorization: 'key=YOUR_SERVER_API_KEY',
+      'Content-Type': 'application/json',
+    },
+    ...
+  })
+  ...
+});
+```
+
 - Import database backup file (JSON) to Realtime Database
 - Enable auth by email and password and anonymous auth methods
 - Create admin account (Authentication tab)
-- Add database rules:
+- Add Realtime database rules:
 
 ```
 {
   "rules": {
-	"participants": {
+    "participants": {
       ".read": "true",
       ".write": "true"
     },
