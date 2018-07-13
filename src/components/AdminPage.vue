@@ -125,7 +125,22 @@ export default {
   },
   methods: {
     getParticipantsNumber(key) {
-      return filter(this.participants, { eventKey: key }).length;
+      const activeQuestionId = this.getActiveQuestionId(key);
+      if (activeQuestionId === '') {
+        return 0;
+      }
+      return filter(this.participants, {
+        eventKey: key,
+        questionId: activeQuestionId,
+      }).length;
+    },
+    getActiveQuestionId(eventId) {
+      const eventObj = filter(this.events, { id: eventId })[0];
+      const activeQuestionObj = filter(eventObj.questions, { active: true })[0];
+      if (activeQuestionObj && activeQuestionObj.id) {
+        return activeQuestionObj.id;
+      }
+      return '';
     },
     getAgendaUsersCount(event) {
       if (event.agendaUsers) {
