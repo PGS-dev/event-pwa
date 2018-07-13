@@ -3,68 +3,70 @@
     <admin-breadcrumbs>
       <h3><router-link to="/admin" replace>Admin page</router-link> > Questions</h3>
     </admin-breadcrumbs>
-    <div class="card mdl-card mdl-shadow--2dp">
-      <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">{{ event.title }}</h2>
-      </div>
-      <div class="mdl-card__supporting-text">
-        <table class="mdl-data-table mdl-js-data-table">
-          <thead>
+    <div class="r-container">
+      <div class="card mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title">
+          <h2 class="mdl-card__title-text">{{ event.title }}</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+          <table class="mdl-data-table mdl-js-data-table">
+            <thead>
+              <tr>
+                <th>Aktywne</th>
+                <th class="mdl-data-table__cell--non-numeric">Pytanie</th>
+                <th>Akcje</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-if="filterNull(event.questions).length === 0"><td colspan="3">Brak pytań konkursowych</td></tr>
+              <tr v-for="question in filterNull(event.questions)" v-bind:key="question.id">
+                <td>
+                  <mdl-checkbox
+                    v-model="question.active"
+                    @change.native="updateActiveQuestion(question.id, question.active, event)"
+                  >
+                  </mdl-checkbox>
+                </td>
+                <td class="mdl-data-table__cell--non-numeric">{{ question.question }}</td>
+                <td>
+                  <div class="buttons-container">
+                    <button
+                      v-on:click="draw(question, event)"
+                      :disabled="question.drawing || !question.active"
+                      class="mdl-button mdl-js-button mdl-button--raised"
+                    >
+                      Losuj
+                    </button>
+                    <router-link
+                      class="mdl-button mdl-js-button mdl-button--raised"
+                      :to="{ name: 'adminEditQuestion', params: { questionId: question.id }}"
+                    >
+                      Edytuj
+                    </router-link>
+                    <button
+                      class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
+                      @click="openModal(question.question, question.id)"
+                    >
+                      Usuń
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
             <tr>
-              <th>Aktywne</th>
-              <th class="mdl-data-table__cell--non-numeric">Pytanie</th>
-              <th>Akcje</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="filterNull(event.questions).length === 0"><td colspan="3">Brak pytań konkursowych</td></tr>
-            <tr v-for="question in filterNull(event.questions)" v-bind:key="question.id">
-              <td>
-                <mdl-checkbox
-                  v-model="question.active"
-                  @change.native="updateActiveQuestion(question.id, question.active, event)"
+              <td colspan="3">
+                <router-link
+                  class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                  :to="{ name: 'adminAddQuestion'}"
                 >
-                </mdl-checkbox>
-              </td>
-              <td class="mdl-data-table__cell--non-numeric">{{ question.question }}</td>
-              <td>
-                <div class="buttons-container">
-                  <button
-                    v-on:click="draw(question, event)"
-                    :disabled="question.drawing || !question.active"
-                    class="mdl-button mdl-js-button mdl-button--raised"
-                  >
-                    Losuj
-                  </button>
-                  <router-link
-                    class="mdl-button mdl-js-button mdl-button--raised"
-                    :to="{ name: 'adminEditQuestion', params: { questionId: question.id }}"
-                  >
-                    Edytuj
-                  </router-link>
-                  <button
-                    class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
-                    @click="openModal(question.question, question.id)"
-                  >
-                    Usuń
-                  </button>
-                </div>
+                  Dodaj pytanie
+                </router-link>
               </td>
             </tr>
-          </tbody>
-          <tfoot>
-          <tr>
-            <td colspan="3">
-              <router-link
-                class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
-                :to="{ name: 'adminAddQuestion'}"
-              >
-                Dodaj pytanie
-              </router-link>
-            </td>
-          </tr>
-          </tfoot>
-        </table>
+            </tfoot>
+          </table>
+        </div>
       </div>
     </div>
     <delete-modal
@@ -186,8 +188,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$tablet: 767px;
-$mobile: 414px;
+$tablet: 768px;
+$mobile: 600px;
 
 .mdl-checkbox {
   display: block;
@@ -198,7 +200,6 @@ $mobile: 414px;
 
 .card.mdl-card {
   width: 100%;
-  max-width: 800px;
   margin: 0 auto 15px auto;
 
   .mdl-card__supporting-text {
@@ -253,7 +254,10 @@ $mobile: 414px;
     margin: 2px;
 
     @media (max-width: $tablet) {
-      min-width: 20vw;
+      height: 30px;
+      line-height: 30px;
+      min-width: 35px;
+      font-size: 12px;
       padding-left: 5px;
       padding-right: 5px;
     }
