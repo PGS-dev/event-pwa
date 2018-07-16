@@ -1,5 +1,5 @@
 {
   "projects": {
-    "default": "pgs-events-dev"
+    "default": "pgs-events-prod"
   }
 }

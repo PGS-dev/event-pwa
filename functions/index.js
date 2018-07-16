@@ -9,7 +9,8 @@ exports.sendPushNotification = functions.https.onRequest((req, res) => {
     method: 'post',
     url: 'https://fcm.googleapis.com/fcm/send',
     headers: {
-      Authorization: 'key=AAAArWP9p4E:APA91bFcMYiATl4upR2zmk96m-QXZ6WOgI1PbIZseu2nl5m_kb1ONMcR61sMtmHgEycU2u4JRJkIGh8U3DmVkOjVWIRp4RDGi8PpH9fw0DNMsZTUzOMt4NHGOOZGAj6Ki_9vvt0uoxBiedzQatsNY3YITuNYNea-BA',
+      Authorization:
+        'key=AAAAzbXh_ek:APA91bF-Z071ktmlekqG_eKs0R0FmcN_8773OL3ii8kC6awvgrrYlzgUYA9bEuz6hd7IYW9PDype4lnM5lwO8YDL24T5pUPHrcn-xfX0gxWmwC9P4qMoJcYZz08OzEXqtp5S7At4plxQ_rtmWaX2k2u_HtwKtfezyw',
       'Content-Type': 'application/json',
     },
     data: JSON.stringify({
@@ -29,9 +30,12 @@ exports.sendPushNotification = functions.https.onRequest((req, res) => {
 exports.topicAssignment = functions.https.onRequest((req, res) => {
   axios({
     method: 'post',
-    url: `https://iid.googleapis.com/iid/v1/${req.query.token}/rel/topics/${req.query.topic}`,
+    url: `https://iid.googleapis.com/iid/v1/${req.query.token}/rel/topics/${
+      req.query.topic
+    }`,
     headers: {
-      Authorization: 'key=AAAArWP9p4E:APA91bFcMYiATl4upR2zmk96m-QXZ6WOgI1PbIZseu2nl5m_kb1ONMcR61sMtmHgEycU2u4JRJkIGh8U3DmVkOjVWIRp4RDGi8PpH9fw0DNMsZTUzOMt4NHGOOZGAj6Ki_9vvt0uoxBiedzQatsNY3YITuNYNea-BA',
+      Authorization:
+        'key=AAAAzbXh_ek:APA91bF-Z071ktmlekqG_eKs0R0FmcN_8773OL3ii8kC6awvgrrYlzgUYA9bEuz6hd7IYW9PDype4lnM5lwO8YDL24T5pUPHrcn-xfX0gxWmwC9P4qMoJcYZz08OzEXqtp5S7At4plxQ_rtmWaX2k2u_HtwKtfezyw',
       'Content-Type': 'application/json',
     },
   })
