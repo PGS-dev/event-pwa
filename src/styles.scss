@@ -6,15 +6,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.logo {
-  background: url("assets/logo.svg") no-repeat;
-  background-size: contain;
-  display: inline-block;
-  width: 100px;
-  height: 50px;
-  margin-right: 15px;
-}
-
 main {
   position: relative;
   height: 100%;
@@ -23,7 +14,8 @@ main {
   padding: 15px;
 }
 
-.mdl-layout .mdl-layout__header, .mdl-button.mdl-button--raised.mdl-button--colored {
+.mdl-layout .mdl-layout__header,
+.mdl-button.mdl-button--raised.mdl-button--colored {
   background-color: #ff7626;
 
   .mdl-layout__header-row {
@@ -36,11 +28,13 @@ main {
 }
 
 .offline {
-  .mdl-layout__header, .mdl-button--raised.mdl-button--colored {
+  .mdl-layout__header,
+  .mdl-button--raised.mdl-button--colored {
     background-color: #383839;
   }
 
-  .offline-message, .mdl-layout__content {
+  .offline-message,
+  .mdl-layout__content {
     transform: translateY(55px);
   }
 }
@@ -62,12 +56,14 @@ main {
   z-index: 2;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .2s ease;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
 }
 
-.fade-enter, .fade-leave-active {
-  opacity: 0
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
 
 .multichoice {
@@ -89,11 +85,11 @@ main {
 }
 
 .mdl-checkbox__box-outline {
-  border: 2px solid rgba(0, 0, 0, .34);
+  border: 2px solid rgba(0, 0, 0, 0.34);
 }
 
 .mdl-textfield--floating-label.is-invalid .mdl-textfield__label {
-  color: rgba(0, 0, 0, .26);
+  color: rgba(0, 0, 0, 0.26);
   font-size: 16px;
 }
 
@@ -103,13 +99,12 @@ main {
 }
 
 .mdl-textfield.is-invalid .mdl-textfield__input {
-  border-color: rgba(0, 0, 0, .12);
+  border-color: rgba(0, 0, 0, 0.12);
 }
 
 .mdl-textfield.is-invalid .mdl-textfield__label:after {
   background-color: rgb(255, 87, 34);
 }
-
 
 .r-container {
   width: 100%;
