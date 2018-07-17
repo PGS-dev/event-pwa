@@ -202,8 +202,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$tablet: 768px;
-$mobile: 600px;
+@import '~@/assets/styles/vars';
 
 .table-responsive {
   width: 100%;
@@ -247,7 +246,7 @@ $mobile: 600px;
     text-align: center;
   }
 
-  @media (max-width: $mobile) {
+  @media (max-width: map-get($breakpoints, 'sm')) {
     td,
     th {
       padding-top: 5px;
@@ -268,7 +267,7 @@ $mobile: 600px;
 .mdl-button {
   margin: 0 2px;
 
-  @media (max-width: $tablet) {
+  @media (max-width: map-get($breakpoints, 'md')) {
     height: 30px;
     line-height: 30px;
     min-width: 35px;
