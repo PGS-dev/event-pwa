@@ -1,13 +1,7 @@
 <template>
   <div id="app">
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-      <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row">
-          <router-link :to="{ name: 'events' }" class="logo"></router-link>
-          <!-- Title -->
-          <span class="mdl-layout-title">Wydarzenia</span>
-        </div>
-      </header>
+      <app-header></app-header>
       <div class="offline-message">
         Brak połączenia z internetem
       </div>
@@ -24,14 +18,17 @@
 </template>
 
 <script>
-import PopupMessage from './components/PopupMessage';
 import firebase from './firebase';
 import { messaging } from './firebase';
 import { actionTypes as eventAction } from './store/modules/events';
 
+import AppHeader from './components/AppHeader';
+import PopupMessage from './components/PopupMessage';
+
 export default {
   name: 'app',
   components: {
+    AppHeader,
     PopupMessage,
   },
   data() {

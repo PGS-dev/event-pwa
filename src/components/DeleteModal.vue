@@ -40,8 +40,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$tablet: 767px;
-$mobile: 380px;
+@import '~@/assets/styles/vars';
 
 .modal {
   &-mask {
@@ -69,7 +68,7 @@ $mobile: 380px;
     transition: all 0.3s ease;
     font-family: Helvetica, Arial, sans-serif;
 
-    @media (max-width: $mobile) {
+    @media (max-width: map-get($breakpoints, 'sm')) {
       box-sizing: border-box;
       width: 100vw;
     }

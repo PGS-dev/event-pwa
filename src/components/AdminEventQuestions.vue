@@ -188,8 +188,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$tablet: 768px;
-$mobile: 600px;
+@import '~@/assets/styles/vars';
 
 .mdl-checkbox {
   display: block;
@@ -206,7 +205,7 @@ $mobile: 600px;
     width: 100%;
     box-sizing: border-box;
 
-    @media (max-width: $mobile) {
+    @media (max-width: map-get($breakpoints, 'sm')) {
       padding: 0;
     }
   }
@@ -221,7 +220,7 @@ $mobile: 600px;
     white-space: normal;
   }
 
-  @media (max-width: $tablet) {
+  @media (max-width: map-get($breakpoints, 'md')) {
     td:last-of-type,
     th:last-of-type {
       padding-right: 12px;
@@ -246,14 +245,14 @@ $mobile: 600px;
   display: flex;
   justify-content: center;
 
-  @media (max-width: $tablet) {
+  @media (max-width: map-get($breakpoints, 'md')) {
     flex-direction: column;
   }
 
   .mdl-button {
     margin: 2px;
 
-    @media (max-width: $tablet) {
+    @media (max-width: map-get($breakpoints, 'md')) {
       height: 30px;
       line-height: 30px;
       min-width: 35px;
