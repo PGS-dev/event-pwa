@@ -1,7 +1,7 @@
 <template>
   <div class="card-form mdl-card mdl-shadow--2dp">
     <form v-on:submit.prevent="onSubmit">
-      <mdl-textfield floating-label="Email" v-model="authData.email" required></mdl-textfield>
+      <mdl-textfield type="email" floating-label="Email" v-model="authData.email" required></mdl-textfield>
       <mdl-textfield type="password" floating-label="Hasło" v-model="authData.password" required></mdl-textfield>
       <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
         Zaloguj
