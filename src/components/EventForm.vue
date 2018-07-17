@@ -4,7 +4,7 @@
       <mdl-textfield floating-label="Tytuł" v-model="event.title" required></mdl-textfield>
       <mdl-textfield floating-label="Opis" v-model="event.desc"></mdl-textfield>
       <mdl-textfield floating-label="Adres obrazka" v-model="event.imageUrl" required></mdl-textfield>
-      <mdl-textfield floating-label="SEO Slug" v-model="event.seoSlug" required></mdl-textfield>
+      <mdl-textfield floating-label="SEO Slug" v-model="trimmedSlug" required></mdl-textfield>
       <mdl-textfield floating-label="Agenda" textarea rows="8" v-model="event.agenda"></mdl-textfield>
       <div @click="showPreview" class="agenda-preview">
         <p class="agenda-preview-title">Podgląd agendy</p>
@@ -49,6 +49,14 @@ export default {
   computed: {
     compiledMarkdown: props =>
       marked(props.event.agenda, { gfm: true, tables: true, breaks: true }),
+    trimmedSlug: {
+      get: function() {
+        return this.event.seoSlug;
+      },
+      set: function(rawSlug) {
+        this.event.seoSlug = rawSlug.replace(/\s+/g, '-').toLowerCase();
+      },
+    },
   },
   methods: {
     onSubmit() {
