@@ -28,7 +28,8 @@
     background-color: $color-accent !important;
   }
 }
-.mdl-button--raised .mdl-radio {
+
+.mdl-radio {
   &.is-checked {
     .mdl-radio__outer-circle {
       border-color: $color-accent;
